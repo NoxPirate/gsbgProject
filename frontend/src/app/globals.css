@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --color-primary: #0B63A6;
+  --color-accent: #00BFA6;
+  --color-dark: #06263A;
+  --color-text: #06263A;
+  --color-gray: #94A3B8;
+  --color-secondary: #F4F7FB;
+  --color-deep: #02172a;
+  --color-light: #FBFDFF;
+  --color-casestudy: rgba(255, 247, 238, 0.95);
+}
+
+body {
+  background-color: var(--color-light);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .animated-gradient-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    color: #fff;
+    background-image: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    background-size: 200% 100%;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(6,38,58,0.08);
+    transition: background-position 0.45s ease, transform 150ms ease, box-shadow 150ms ease;
+  }
+
+  .animated-gradient-btn:hover {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px rgba(6,38,58,0.12);
+  }
+
+  .header-deep {
+    background: linear-gradient(90deg, rgba(2,23,42,0.95), rgba(6,38,58,0.85));
+    color: #fff;
+  }
+
+  .hero-overlay-deep::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(2,23,42,0.35), rgba(2,23,42,0.55));
+    pointer-events: none;
+    z-index: -5;
+  }
+
+  .scrolling-bg {
+  background: linear-gradient(45deg, var(--color-secondary) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--color-secondary) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--color-secondary) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--color-secondary) 75%);
+    background-size: 20px 20px;
+    animation: scroll-bg 20s linear infinite;
+  }
+
+  @keyframes scroll-bg {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: -100% -100%;
+    }
+  }
+}
