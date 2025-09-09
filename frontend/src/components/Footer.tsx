@@ -3,10 +3,10 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <footer className="bg-dark text-light py-12">
+    <footer className="bg-[var(--color-deep)] text-light py-12">
       <div className="container mx-auto flex flex-col md:flex-row justify-between">
         <div className="md:w-1/2 mb-8 md:mb-0">
-          <Image src="/assets/images/Extreme_Final2-removebg-preview.png" alt="GSBG Logo" width={150} height={48} className="h-12 mb-4" />
+          <Image src="/assets/images/Extreme_Final2-removebg-preview.png" alt="GSBG Logo" width={150} height={48} className="h-12 mb-4" style={{ filter: 'invert(1) hue-rotate(180deg)' }} />
           <p className="mb-4 text-gray">Trust. Value. Velocity</p>
           <p className="text-sm">
             <a href="/legal/privacy_notice.html" className="mr-4 hover:text-accent transition-colors duration-300">Privacy Notice</a>

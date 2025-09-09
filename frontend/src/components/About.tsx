@@ -7,19 +7,19 @@ const About = () => {
   return (
     <motion.section
       id="about4"
-      className="py-20 bg-light"
+      className="py-20 bg-secondary"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center text-dark mb-12">About Us</h2>
+        <h2 className="text-3xl font-bold text-center text-[var(--color-dark)] mb-12">About Us</h2>
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 md:pr-12">
             <h3 className="text-2xl font-bold text-primary mb-4">Who Are We?</h3>
             <p className="text-gray mb-4">
-              GSBG was founded by visionary entrepreneur <strong className="text-dark">Ankush Gaikawad</strong>, who set out to transform the digital
+              GSBG was founded by visionary entrepreneur <strong className="text-[var(--color-dark)]">Ankush Gaikawad</strong>, who set out to transform the digital
               landscape. From humble beginnings in a one-room flat, GSBG has grown into a thriving company with two offices and a
               team of over 10 talented professionals driving innovation daily.
             </p>
@@ -39,7 +39,7 @@ const About = () => {
             </p>
           </div>
           <div className="md:w-1/2">
-            <Image src="/assets/images/undraw_team-spirit_18vw.svg" alt="Who are we" width={500} height={400} />
+            <Image src="/assets/images/undraw_team-spirit_18vw.svg" alt="Who are we" width={500} height={400} style={{ height: "auto" }} />
           </div>
         </div>
       </div>

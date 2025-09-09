@@ -32,7 +32,7 @@ const Industries = () => {
   return (
   <section id="industries" className="py-20 bg-secondary hero-overlay-deep">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center text-dark mb-12">Industries</h2>
+        <h2 className="text-3xl font-bold text-center text-[var(--color-dark)] mb-12">Industries</h2>
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2">
             <Image src="/assets/images/undraw_world_bdnk.svg" alt="Industries Served" width={500} height={400} />

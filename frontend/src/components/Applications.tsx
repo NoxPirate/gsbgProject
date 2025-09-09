@@ -50,19 +50,19 @@ const Applications = () => {
   return (
     <section id="salesforce-apps" className="py-20 bg-secondary">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center text-dark mb-12">Applications</h2>
+        <h2 className="text-3xl font-bold text-center text-[var(--color-dark)] mb-12">Applications</h2>
         <Slider {...settings}>
           {applications.map((app, index) => (
             <div key={index} className="p-4">
               <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row">
                 <div className="md:w-1/2 p-6 flex flex-col justify-center">
                   <h3 className="text-2xl font-bold text-primary mb-4">{app.title}</h3>
-                  <p className="mb-2 text-gray"><strong className="text-dark">What:</strong> {app.what}</p>
-                  <p className="mb-2 text-gray"><strong className="text-dark">How:</strong> {app.how}</p>
-                  <p className="text-gray"><strong className="text-dark">Usage:</strong> {app.usage}</p>
+                  <p className="mb-2 text-gray"><strong className="text-[var(--color-dark)]">What:</strong> {app.what}</p>
+                  <p className="mb-2 text-gray"><strong className="text-[var(--color-dark)]">How:</strong> {app.how}</p>
+                  <p className="text-gray"><strong className="text-[var(--color-dark)]">Usage:</strong> {app.usage}</p>
                 </div>
-                <div className="md:w-1/2 flex items-center justify-center p-6 bg-light">
-                  <Image src={app.image} alt={app.title} width={300} height={200} />
+                <div className="md:w-1/2 flex items-center justify-center p-6 bg-dark">
+                  <Image src={app.image} alt={app.title} width={300} height={200} style={{ height: "auto" }} />
                 </div>
               </div>
             </div>

@@ -2,21 +2,23 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
       colors: {
-        primary: '#4682B4',
-        secondary: '#E6F0FA',
-        dark: '#0A2540',
-        gray: '#A9B7C6',
-        light: '#F5F7FA',
-        accent: '#00CED1',
-        text: '#0096D6',
-        casestudy: 'rgba(255, 218, 224, 0.871)',
+        // Modern, professional palette (deep blue + teal accent + soft neutrals)
+        primary: '#0B63A6',    // strong professional blue
+        accent: '#00BFA6',     // teal accent for highlights and CTAs
+        dark: '#06263A',       // deep navy for headings and text
+        text: '#06263A',       // main text color (same as dark)
+        gray: '#94A3B8',       // neutral gray for muted text
+        secondary: '#F4F7FB',  // soft off-white backgrounds
+        light: '#FBFDFF',      // page background
+        casestudy: 'rgba(255, 247, 238, 0.95)', // warm case-study card bg
       },
     },
   },

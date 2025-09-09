@@ -13,7 +13,7 @@ const Strength = () => {
   return (
     <section id="our_strength" className="py-20 bg-secondary" ref={ref}>
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center text-dark mb-12">Our Strength</h2>
+        <h2 className="text-3xl font-bold text-center text-[var(--color-dark)] mb-12">Our Strength</h2>
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2">
             <Image src="/assets/images/undraw_growth-curve_kzjb.svg" alt="Our Scale" width={500} height={400} />

@@ -135,32 +135,8 @@ export default function ThreeScenes() {
         return { mesh1, mesh2 };
       }
 
-      // Only initialize the GSBG hero 3D scene (per user request). No logo showcase, no minis.
-      const heroHost = document.getElementById('heroCanvasHost') as HTMLElement | null;
-      if (heroHost && mounted) {
-        const res = makeRenderer(heroHost, { autoRotate: true, autoRotateSpeed: 0.7 });
-        if (res) {
-          const { renderer, scene, camera, controls } = res;
-          const gA = addOrbit(scene, 2.0, 26, 0.5);
-          const gB = addOrbit(scene, 2.7, 38, 0.8);
-          const gC = addOrbit(scene, 3.3, 50, 1.0);
-          const center = new THREE.Group();
-          scene.add(center);
-          addLogoText(center);
-          const clock = new THREE.Clock();
-          (function animate() {
-            const t = clock.getElapsedTime();
-            gA.rotation.y = t * 0.25;
-            gB.rotation.y = -t * 0.18;
-            gC.rotation.y = t * 0.12;
-            controls.update();
-            renderer.render(scene, camera);
-            requestAnimationFrame(animate);
-          })();
-        }
-      }
-
-      // Restore logo showcase for Sales Presentation demo (mount to #logoCanvasHost)
+      // Re-add logo showcase for Sales Presentation demo (mount to #logoCanvasHost)
+      // This only mounts to the element with id `logoCanvasHost` so the hero video remains unobstructed.
       const logoHost = document.getElementById('logoCanvasHost') as HTMLElement | null;
       if (logoHost && mounted) {
         const res = makeRenderer(logoHost, { autoRotate: true });

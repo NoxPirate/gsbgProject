@@ -23,7 +23,7 @@ const Founders = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center text-dark mb-12">Meet Our Founders and Directors</h2>
+        <h2 className="text-3xl font-bold text-center text-[var(--color-dark)] mb-12">Meet Our Founders and Directors</h2>
         <div className="flex justify-center">
           {founders.map((founder, index) => (
             <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-sm transform hover:-translate-y-2 transition-transform duration-300">
@@ -31,7 +31,7 @@ const Founders = () => {
               <div className="p-6 text-center">
                 <h4 className="text-xl font-bold text-primary mb-2">{founder.name}</h4>
                 <p className="text-gray mb-4">{founder.title}</p>
-                <blockquote className="text-lg italic text-dark">&quot;{founder.quote}&quot;</blockquote>
+                <blockquote className="text-lg italic text-[var(--color-text)]">&quot;{founder.quote}&quot;</blockquote>
               </div>
             </div>
           ))}

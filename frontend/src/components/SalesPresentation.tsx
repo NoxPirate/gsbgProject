@@ -2,9 +2,9 @@ import React from "react";
 
 const SalesPresentation = () => {
   return (
-  <section id="sales-presentaton" className="py-20 bg-light hero-overlay-deep">
+  <section id="sales-presentaton" className="py-20 bg-secondary hero-overlay-deep">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">Sales Presentation Demo</h2>
+        <h2 className="text-3xl font-bold text-center text-[var(--color-dark)] mb-12">Sales Presentation Demo</h2>
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 md:pr-12">
             <p className="text-lg mb-4">Explore some key features of Sales Cloud</p>

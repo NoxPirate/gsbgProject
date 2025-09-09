@@ -5,12 +5,12 @@ import { motion } from "framer-motion";
 
 const Demo = () => {
   return (
-    <section id="schedule-demo" className="py-20 bg-white">
+    <section id="schedule-demo" className="py-20 bg-secondary">
       <div className="max-w-6xl mx-auto px-4">
         <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           {/* left: content */}
           <div className="text-left">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-dark mb-4">Demo Sales Cloud</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--color-dark)] mb-4">Demo Sales Cloud</h2>
             <p className="text-lg text-gray mb-6 max-w-xl">
               Get to know your future sales platform. Schedule a guided demo to see how Sales Cloud
               can streamline pipelines, accelerate deals, and give your team full visibility.
@@ -49,7 +49,7 @@ const Demo = () => {
 
           {/* right: image card */}
           <div className="flex items-center justify-center">
-            <motion.div whileHover={{ scale: 1.02 }} className="w-full max-w-md rounded-lg overflow-hidden shadow-lg">
+            <motion.div whileHover={{ scale: 1.02 }} className="w-full max-w-lg rounded-lg overflow-hidden shadow-lg">
               <Image
                 src="/assets/images/Image-76.png"
                 alt="Schedule a Demo"

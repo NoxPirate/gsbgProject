@@ -9,7 +9,6 @@
   --color-text: #06263A;
   --color-gray: #94A3B8;
   --color-secondary: #F4F7FB;
-  --color-deep: #02172a;
   --color-light: #FBFDFF;
   --color-casestudy: rgba(255, 247, 238, 0.95);
 }
@@ -51,26 +50,85 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(2,23,42,0.35), rgba(2,23,42,0.55));
+    background: linear-gradient(180deg, rgba(2,23,42,0.25), rgba(2,23,42,0.55));
     pointer-events: none;
-    z-index: -5;
+    z-index: 0;
   }
 
-  .scrolling-bg {
-  background: linear-gradient(45deg, var(--color-secondary) 25%, transparent 25%),
-        linear-gradient(-45deg, var(--color-secondary) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, var(--color-secondary) 75%),
-        linear-gradient(-45deg, transparent 75%, var(--color-secondary) 75%);
-    background-size: 20px 20px;
-    animation: scroll-bg 20s linear infinite;
+  .hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 80px);
   }
 
-  @keyframes scroll-bg {
-    0% {
-      background-position: 0 0;
-    }
-    100% {
-      background-position: -100% -100%;
-    }
+  .hero-content > * {
+    background: rgba(255,255,255,0.85);
+    padding: 2.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 30px rgba(2,23,42,0.12);
+    color: var(--color-dark);
   }
+
+  .scrolled-text {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+
+  /* Navbar improvements */
+  .nav-link {
+    color: var(--color-dark);
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    margin: 0 0.125rem;
+  }
+
+  header.bg-transparent .nav-link {
+    color: #fff;
+  }
+
+  header.bg-white .nav-link {
+    color: var(--color-dark);
+  }
+
+  .header-deep {
+    background: linear-gradient(90deg, rgba(2,23,42,0.95), rgba(6,38,58,0.95));
+    color: #fff;
+  }
+
+  header.bg-black\/30 {
+    background: rgba(0,0,0,0.28);
+  }
+
+  header.bg-white\/95 {
+    background: rgba(255,255,255,0.95);
+  }
+
+  
+}
+.container-background {
+  width: 100%;
+  height: 100%;
+  --size: 80px; /* control the size */
+  --color: #add8e6;
+
+  background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 40%,
+      #add8e6 41%,
+      #add8e6 60%,
+      transparent 61%,
+      transparent 100%
+    ),
+    linear-gradient(
+      45deg,
+      #add8e6 25%,
+      transparent 25%,
+      transparent 50%,
+      #add8e6 50%,
+      #add8e6 75%,
+      transparent 75%,
+      transparent
+    );
+  background-size: var(--size) var(--size);
 }
