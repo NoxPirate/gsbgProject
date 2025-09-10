@@ -1,0 +1,86 @@
+.starry-background-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #0b0b2b, #1b2735 70%, #090a0f);
+  overflow: hidden;
+  z-index: 0;
+}
+
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.stars::before {
+  content: '';
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: white;
+  box-shadow: 2% 5% 2px white, 10% 8% 2px white, 15% 15% 1px white,
+    22% 22% 1px white, 28% 12% 2px white, 32% 32% 1px white,
+    38% 18% 2px white, 42% 35% 1px white, 48% 25% 2px white,
+    53% 42% 1px white, 58% 15% 2px white, 63% 38% 1px white,
+    68% 28% 2px white, 73% 45% 1px white, 78% 32% 2px white,
+    83% 48% 1px white, 88% 20% 2px white, 93% 52% 1px white,
+    98% 35% 2px white, 5% 60% 1px white, 12% 65% 2px white,
+    18% 72% 1px white, 25% 78% 2px white, 30% 85% 1px white,
+    35% 68% 2px white, 40% 82% 1px white, 45% 92% 2px white,
+    50% 75% 1px white, 55% 88% 2px white, 60% 95% 1px white,
+    65% 72% 2px white, 70% 85% 1px white, 75% 78% 2px white,
+    80% 92% 1px white, 85% 82% 2px white, 90% 88% 1px white,
+    95% 75% 2px white;
+  animation: twinkle 8s infinite linear;
+}
+
+.stars::after {
+  content: '';
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: white;
+  box-shadow: 8% 12% 2px white, 16% 18% 1px white, 24% 25% 2px white,
+    33% 15% 1px white, 41% 28% 2px white, 49% 35% 1px white,
+    57% 22% 2px white, 65% 42% 1px white, 73% 28% 2px white,
+    81% 48% 1px white, 89% 32% 2px white, 97% 45% 1px white,
+    3% 68% 2px white, 11% 75% 1px white, 19% 82% 2px white,
+    27% 88% 1px white, 35% 72% 2px white, 43% 85% 1px white,
+    51% 92% 2px white, 59% 78% 1px white;
+  animation: twinkle 6s infinite linear reverse;
+}
+
+.shooting-star {
+  position: absolute;
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, white, transparent);
+  animation: shoot 3s infinite ease-in;
+}
+
+.shooting-star:nth-child(1) { top: 20%; left: -100px; animation-delay: 0s; }
+.shooting-star:nth-child(2) { top: 35%; left: -100px; animation-delay: 1s; }
+.shooting-star:nth-child(3) { top: 50%; left: -100px; animation-delay: 2s; }
+.shooting-star:nth-child(4) { top: 65%; left: -100px; animation-delay: 3s; }
+.shooting-star:nth-child(5) { top: 80%; left: -100px; animation-delay: 4s; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes shoot {
+  0% {
+    transform: translateX(0) translateY(0) rotate(25deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120vw) translateY(50vh) rotate(25deg);
+    opacity: 0;
+  }
+}

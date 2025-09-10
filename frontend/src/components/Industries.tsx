@@ -1,5 +1,6 @@
 import React from "react";
 import IndustryRobot from "./IndustryRobot";
+import StarryBackground from "./StarryBackground";
 
 const industriesData = [
     {
@@ -33,8 +34,9 @@ const Industries = () => {
   const angleStep = (2 * Math.PI) / industriesData.length;
 
   return (
-    <section id="industries" className="py-20" style={{ backgroundColor: '#0a0a1a' }}>
-      <div className="container mx-auto text-center">
+    <section id="industries" className="py-20 relative overflow-hidden">
+      <StarryBackground />
+      <div className="container mx-auto text-center relative z-10">
         <h2 className="text-3xl font-bold text-center text-white mb-12">Industries</h2>
         <div className="relative flex justify-center items-center" style={{ height: '800px' }}>
           <div className="absolute inset-0">

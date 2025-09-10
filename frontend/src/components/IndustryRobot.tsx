@@ -29,29 +29,25 @@ const IndustryRobot = () => {
     mountRef.current.appendChild(renderer.domElement);
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
     scene.add(ambientLight);
 
-    const spotLight = new THREE.SpotLight(0xffffff, 10, 30, Math.PI / 3, 0.5, 2);
-    spotLight.position.set(0, 15, 0);
+    const spotLight = new THREE.SpotLight(0xffffff, 200, 50, Math.PI / 4, 1, 2);
+    spotLight.position.set(5, 10, 15);
     scene.add(spotLight);
-
-    const pointLight = new THREE.PointLight(0xaaaaff, 1);
-    pointLight.position.set(0, 0, 5);
-    scene.add(pointLight);
 
     // Load Model
     const loader = new GLTFLoader();
     loader.load(
-      '/assets/robot/gsbg1.glb',
+      '/assets/robot/gsbg2.glb',
       (gltf: any) => {
         console.log(gltf);
         const model = gltf.scene;
-        model.rotation.set(0, Math.PI, 0);
+        model.rotation.set(0, -Math.PI / 2, 0);
 
         model.traverse((child: any) => {
           console.log(child.name);
-          if (child.name === 'head' || child.name === 'Neck' || child.name === 'head_bone') {
+          if (child.name.toLowerCase().includes('head') || child.name.toLowerCase().includes('neck')) {
             headRef.current = child;
           }
         });
@@ -71,6 +67,7 @@ const IndustryRobot = () => {
 
         robotRef.current = model;
         scene.add(model);
+        spotLight.target = model;
       },
       undefined,
       (error: any) => {
