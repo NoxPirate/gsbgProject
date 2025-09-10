@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import IndustryRobot from "./IndustryRobot";
 
 const industriesData = [
     {
@@ -29,24 +29,35 @@ const industriesData = [
 ];
 
 const Industries = () => {
+  const radius = 450; // Radius of the ring
+  const angleStep = (2 * Math.PI) / industriesData.length;
+
   return (
-  <section id="industries" className="py-20 bg-secondary hero-overlay-deep">
-      <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center text-[var(--color-dark)] mb-12">Industries</h2>
-        <div className="flex flex-col md:flex-row items-center">
-          <div className="md:w-1/2">
-            <Image src="/assets/images/undraw_world_bdnk.svg" alt="Industries Served" width={500} height={400} />
+    <section id="industries" className="py-20" style={{ backgroundColor: '#0a0a1a' }}>
+      <div className="container mx-auto text-center">
+        <h2 className="text-3xl font-bold text-center text-white mb-12">Industries</h2>
+        <div className="relative flex justify-center items-center" style={{ height: '800px' }}>
+          <div className="absolute inset-0">
+            <IndustryRobot />
           </div>
-          <div className="md:w-1/2 md:pl-12">
-            <div className="grid grid-cols-1 gap-8">
-              {industriesData.map((industry, index) => (
-                <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                  <h3 className="text-xl font-bold text-primary mb-2">{industry.title}</h3>
-                  <p className="text-gray">{industry.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          {industriesData.map((industry, index) => {
+            const angle = index * angleStep;
+            const x = radius * Math.cos(angle);
+            const y = radius * Math.sin(angle);
+            return (
+              <div
+                key={index}
+                className="absolute bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                style={{
+                  transform: `translate(${x}px, ${y}px)`,
+                  width: '200px',
+                }}
+              >
+                <h3 className="text-lg font-bold text-primary mb-1">{industry.title}</h3>
+                <p className="text-gray text-sm">{industry.description.substring(0, 100)}...</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

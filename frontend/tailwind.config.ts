@@ -20,6 +20,15 @@ const config: Config = {
         light: '#FBFDFF',      // page background
         casestudy: 'rgba(255, 247, 238, 0.95)', // warm case-study card bg
       },
+      keyframes: {
+        floatUp: {
+          "0%": { transform: "translateY(0) rotate(0deg)", opacity: "1" },
+          "100%": { transform: "translateY(-1000px) rotate(720deg)", opacity: "0" },
+        },
+      },
+      animation: {
+        floatUp: "floatUp 25s linear infinite",
+      },
     },
   },
   plugins: [],
