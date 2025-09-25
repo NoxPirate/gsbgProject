@@ -7,7 +7,7 @@ const About = () => {
   return (
     <motion.section
       id="about4"
-      className="py-20 bg-secondary"
+  className="py-20 bg-sky-200"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}

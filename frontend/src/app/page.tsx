@@ -9,7 +9,6 @@ import Industries from "@/components/Industries";
 import CaseStudies from "@/components/CaseStudies";
 import Applications from "@/components/Applications";
 import About from "@/components/About";
-import Founders from "@/components/Founders";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ThreeScenes from "@/components/ThreeScenes";
@@ -28,8 +27,7 @@ export default function Home() {
         <Industries />
         <CaseStudies />
         <Applications />
-        <About />
-        <Founders />
+  <About />
         <Contact />
       </main>
       <Footer />

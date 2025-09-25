@@ -1,4 +1,5 @@
 import React from "react";
+import ReactPlayer from "react-player";
 import AnimatedBackground from "./AnimatedBackground";
 
 const SalesPresentation = () => {
@@ -15,8 +16,14 @@ const SalesPresentation = () => {
             <p className="font-bold">Earn more customers, sell more and grow with Salesforce Sales Cloud!</p>
           </div>
           <div className="md:w-1/2">
-            <div className="w-full h-80 rounded-lg overflow-hidden bg-light header-deep">
-              <div id="logoCanvasHost" className="w-full h-full" />
+            <div className="w-full h-80 rounded-lg overflow-hidden bg-sky-200 header-deep">
+              <iframe
+                title="Sales Presentation Demo"
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/2ZkjhgBNI-Y"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
             </div>
           </div>
         </div>

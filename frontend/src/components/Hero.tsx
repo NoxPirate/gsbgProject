@@ -34,7 +34,7 @@ const Hero = () => {
         <video
           id="heroBgVideo"
           className="w-full h-full object-cover"
-          src="/assets/vedio/gsbg.mp4"
+          src="/assets/vedio/gsbg3.mp4"
           preload="auto"
           muted
           loop

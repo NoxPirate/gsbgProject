@@ -1,6 +1,6 @@
 export default function AnimatedBackground() {
   return (
-    <div className="absolute inset-0 -z-10 w-full h-screen bg-gradient-to-l from-[#8f94fb] to-[#4e54c8]">
+  <div className="absolute inset-0 -z-10 w-full h-screen bg-gradient-to-l from-sky-300 to-sky-500">
       <ul className="relative w-full h-full overflow-hidden">
         {/* Circles */}
         <li className="absolute w-20 h-20 left-1/4 bottom-[-150px] bg-white/20 rounded-full animate-floatUp" />

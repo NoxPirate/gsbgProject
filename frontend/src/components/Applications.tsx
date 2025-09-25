@@ -48,7 +48,7 @@ const Applications = () => {
   };
 
   return (
-    <section id="salesforce-apps" className="py-20 bg-secondary">
+  <section id="salesforce-apps" className="py-20 bg-sky-200">
       <div className="container mx-auto">
         <h2 className="text-3xl font-bold text-center text-[var(--color-dark)] mb-12">Applications</h2>
         <Slider {...settings}>

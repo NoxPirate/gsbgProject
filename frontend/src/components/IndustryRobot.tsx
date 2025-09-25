@@ -3,6 +3,8 @@
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+// Small local GLTF type to avoid missing types from three/examples
+type GLTF = { scene: THREE.Object3D };
 
 const IndustryRobot = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -13,9 +15,11 @@ const IndustryRobot = () => {
   useEffect(() => {
     if (!mountRef.current) return;
 
+    // copy ref to local variable to avoid stale-ref issues in cleanup
+    const currentMount = mountRef.current;
 
-    const width = mountRef.current.clientWidth;
-    const height = mountRef.current.clientHeight;
+    const width = currentMount.clientWidth;
+    const height = currentMount.clientHeight;
 
     // Scene
     const scene = new THREE.Scene();
@@ -40,12 +44,12 @@ const IndustryRobot = () => {
     const loader = new GLTFLoader();
     loader.load(
       '/assets/robot/gsbg2.glb',
-      (gltf: any) => {
+      (gltf: GLTF) => {
         console.log(gltf);
         const model = gltf.scene;
         model.rotation.set(0, -Math.PI / 2, 0);
 
-        model.traverse((child: any) => {
+        model.traverse((child: THREE.Object3D) => {
           console.log(child.name);
           if (child.name.toLowerCase().includes('head') || child.name.toLowerCase().includes('neck')) {
             headRef.current = child;
@@ -65,19 +69,19 @@ const IndustryRobot = () => {
 
         camera.position.z = cameraZ;
 
-        robotRef.current = model;
+  robotRef.current = model as THREE.Group;
         scene.add(model);
         spotLight.target = model;
       },
       undefined,
-      (error: any) => {
+      (error: unknown) => {
         console.error(error);
       }
     );
 
     const handleMouseMove = (event: MouseEvent) => {
-      if (mountRef.current) {
-        const rect = mountRef.current.getBoundingClientRect();
+      if (currentMount) {
+        const rect = currentMount.getBoundingClientRect();
         mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
       }
@@ -97,9 +101,9 @@ const IndustryRobot = () => {
     animate();
 
     const handleResize = () => {
-      if (mountRef.current) {
-        const width = mountRef.current.clientWidth;
-        const height = mountRef.current.clientHeight;
+      if (currentMount) {
+        const width = currentMount.clientWidth;
+        const height = currentMount.clientHeight;
         renderer.setSize(width, height);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
@@ -110,8 +114,8 @@ const IndustryRobot = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
-      if (mountRef.current) {
-        mountRef.current.removeChild(renderer.domElement);
+      if (currentMount) {
+        currentMount.removeChild(renderer.domElement);
       }
     };
   }, []);
