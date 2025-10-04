@@ -39,22 +39,31 @@ const Products = () => {
     <section id="products" className="py-20 bg-gradient-to-b from-white to-[#f6fbff]">
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-center text-[#0b4f6c] mb-10">Products</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          <div>
-            <div className="grid grid-cols-1 gap-6">
-              {productsData.map((product, index) => (
-                <motion.div key={index} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.06, duration: 0.45 }} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transform transition-all duration-300 border border-transparent">
-                  <h3 className="text-lg md:text-xl font-semibold text-[var(--color-dark)] mb-2">{product.title}</h3>
-                  <p className="text-[var(--color-dark)] text-sm md:text-base">{product.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-          <div className="flex items-center justify-center">
-            <motion.div initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <Image src="/assets/images/undraw_data-processing_z2q6.svg" alt="Salesforce Practices" width={420} height={340} className="max-w-full h-auto object-contain" loading="lazy" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
+          {productsData.map((product, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.06, duration: 0.45 }}
+              className="premium-card flex flex-col h-full"
+            >
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0">
+                  <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-[#0B63A6] to-[#00BFA6] flex items-center justify-center text-white font-bold">{product.title.split(' ').slice(0,2).map(w=>w[0]).join('')}</div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg md:text-xl font-semibold mb-1">{product.title}</h3>
+                  <p className="text-sm md:text-base line-clamp-4 text-gray-700">{product.description}</p>
+                </div>
+              </div>
+
+              <div className="mt-auto pt-4">
+                <a href="#" className="premium-cta">Explore</a>
+              </div>
             </motion.div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

@@ -73,9 +73,9 @@ const Header = () => {
                   </Link>
                 </div>
 
-                  <div className="hidden md:flex items-center space-x-1">
-                  <ScrollLink to="home" smooth={true} duration={500} className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent cursor-pointer">Home</ScrollLink>
-                  <ScrollLink to="our_strength" smooth={true} duration={500} className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent cursor-pointer">Our Strength</ScrollLink>
+                  <div className="hidden md:flex items-center space-x-1 flex-nowrap whitespace-nowrap">
+                    <ScrollLink to="home" smooth={true} duration={500} className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent cursor-pointer">Home</ScrollLink>
+                    <ScrollLink to="our_strength" smooth={true} duration={500} className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent cursor-pointer">Capabilities</ScrollLink>
 
                   {/* Products dropdown (rendered in a portal so backdrop-filter blurs page content) */}
                   <div
@@ -115,8 +115,8 @@ const Header = () => {
 
                   <ScrollLink to="industries" smooth={true} duration={500} className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent cursor-pointer">Industries</ScrollLink>
                   <ScrollLink to="projects" smooth={true} duration={500} className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent cursor-pointer">Case Studies</ScrollLink>
-                  <ScrollLink to="salesforce-apps" smooth={true} duration={500} className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent cursor-pointer">Applications</ScrollLink>
-                  <ScrollLink to="about4" smooth={true} duration={500} className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent cursor-pointer">About Us</ScrollLink>
+                  <ScrollLink to="salesforce-apps" smooth={true} duration={500} className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent cursor-pointer">Solutions</ScrollLink>
+                  <ScrollLink to="about4" smooth={true} duration={500} className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent cursor-pointer">About</ScrollLink>
 
                   {/* Services dropdown (portal) */}
                   <div
@@ -152,8 +152,7 @@ const Header = () => {
                     )}
                   </div>
 
-                  <ScrollLink to="contact-form" smooth={true} duration={500} className="px-2 py-1 rounded-lg nav-link hover:bg-transparent cursor-pointer">Contact Us</ScrollLink>
-                  <Link href="#contact-form" className="ml-3 inline-block bg-[var(--color-primary)] text-white px-3 py-1.5 rounded-full font-semibold shadow-sm hover:opacity-95">Get a Demo</Link>
+                  <ScrollLink to="contact-form" smooth={true} duration={500} className="px-2 py-1 rounded-lg nav-link hover:bg-transparent cursor-pointer">Contact</ScrollLink>
                 </div>
 
                 <div className="md:hidden">

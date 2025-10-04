@@ -97,6 +97,67 @@ body {
     color: var(--color-dark);
   }
 
+  /* Premium product card */
+  .premium-card {
+    position: relative;
+    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.96));
+    border: 1px solid rgba(6,38,58,0.06);
+    box-shadow: 0 12px 30px rgba(6,38,58,0.06);
+    padding: 1.25rem;
+    border-radius: 0.9rem;
+    transition: transform 280ms cubic-bezier(.2,.9,.2,1), box-shadow 280ms ease;
+    overflow: hidden;
+  }
+
+  .premium-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 6px;
+    background: linear-gradient(180deg, var(--color-primary), var(--color-accent));
+    border-top-left-radius: 0.6rem;
+    border-bottom-left-radius: 0.6rem;
+  }
+
+  .premium-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 26px 60px rgba(6,38,58,0.12);
+  }
+
+  .premium-card h3 {
+    color: var(--color-dark);
+  }
+
+  .premium-card p {
+    color: rgba(6,38,58,0.8);
+  }
+
+  /* Fallback clamp utility for 4 lines */
+  .line-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .premium-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    color: white;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(11,99,166,0.12);
+    transition: transform 160ms ease, opacity 160ms ease;
+  }
+
+  .premium-cta:hover { transform: translateY(-2px); opacity: 0.98; }
+
   /* nav-glass mirrors the header fixed glass appearance exactly by exposing the same vars used by .glass-nav
      The actual visible surface comes from the layered .glass-filter/.glass-overlay/.glass-specular children
      so keep .nav-glass transparent and allow the inner layers to provide the frosted appearance. */
@@ -181,6 +242,19 @@ body {
 
   .nav-item:hover {
     background-color: rgba(255,255,255,0.03);
+  }
+
+  /* Center main page content by default while preserving internal grid alignment */
+  .page-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  /* Ensure grid columns keep their internal text left-aligned for readability */
+  .grid > * {
+    text-align: left;
   }
 
   /* Make nav text white inside the glass navigation */
