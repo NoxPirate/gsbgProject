@@ -3,11 +3,11 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <footer className="bg-[var(--color-deep)] text-light py-12">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between">
+    <footer className="bg-sky-200 text-[var(--color-dark)] py-12">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-start">
         <div className="md:w-1/2 mb-8 md:mb-0">
-          <Image src="/assets/images/Extreme_Final2-removebg-preview.png" alt="GSBG Logo" width={150} height={48} className="h-12 mb-4" style={{ filter: 'invert(1) hue-rotate(180deg)' }} />
-          <p className="mb-4 text-gray">Trust. Value. Velocity</p>
+          <Image src="/assets/images/Extreme_FInal-removebg-preview.png" alt="GSBG Logo" width={400} height={120} className="h-14 md:h-16 w-auto mb-4" />
+          <p className="mb-4 text-[var(--color-dark)] font-medium">Trust · Value · Velocity</p>
           <p className="text-sm">
             <a href="/legal/privacy_notice.html" className="mr-4 hover:text-accent transition-colors duration-300">Privacy Notice</a>
             <a href="/legal/cookie_policy.html" className="mr-4 hover:text-accent transition-colors duration-300">Cookie Policy</a>
@@ -18,7 +18,7 @@ const Footer = () => {
           <p className="text-sm mt-4 text-gray">GSBG Technologies, Shop No - 18, LODHA ELITE, Near Nilje Railway Station, Dombivali East, Thane, Pin-421204, Maharashtra, India</p>
         </div>
         <div className="md:w-1/4">
-          <h4 className="text-xl font-bold mb-4 text-white">Direct Links</h4>
+          <h4 className="text-xl font-bold mb-4 text-[var(--color-dark)]">Direct Links</h4>
           <ul>
             <li className="mb-2"><a href="https://www.linkedin.com/company/gsbg-technologies/?viewAsMember=true" className="hover:text-accent transition-colors duration-300">LinkedIn</a></li>
             <li className="mb-2"><a href="https://wa.me/918097904244" className="hover:text-accent transition-colors duration-300">WhatsApp</a></li>
