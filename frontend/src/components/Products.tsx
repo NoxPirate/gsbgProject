@@ -36,28 +36,26 @@ const productsData = [
 
 const Products = () => {
   return (
-  <section id="products" className="py-20 bg-sky-200">
+    <section id="products" className="py-20 bg-gradient-to-b from-white to-[#f6fbff]">
       <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center text-light mb-10">Products</h2>
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        <h2 className="text-3xl font-bold text-center text-[#0b4f6c] mb-10">Products</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           <div>
             <div className="grid grid-cols-1 gap-6">
               {productsData.map((product, index) => (
-                <motion.div key={index} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.08, duration: 0.45 }} className="bg-white p-6 rounded-lg shadow-sm hover:shadow-lg hover:scale-[1.01] transform-gpu transition-all duration-300 border border-transparent hover:border-accent/20">
-                  <h3 className="text-lg md:text-xl font-semibold text-primary mb-2">{product.title}</h3>
-                  <p className="text-gray text-sm md:text-base">{product.description}</p>
+                <motion.div key={index} initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.06, duration: 0.45 }} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transform transition-all duration-300 border border-transparent">
+                  <h3 className="text-lg md:text-xl font-semibold text-[var(--color-dark)] mb-2">{product.title}</h3>
+                  <p className="text-[var(--color-dark)] text-sm md:text-base">{product.description}</p>
                 </motion.div>
               ))}
             </div>
           </div>
           <div className="flex items-center justify-center">
             <motion.div initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <Image src="/assets/images/undraw_data-processing_z2q6.svg" alt="Salesforce Practices" width={520} height={420} className="max-w-full h-auto object-contain" loading="lazy" />
+              <Image src="/assets/images/undraw_data-processing_z2q6.svg" alt="Salesforce Practices" width={420} height={340} className="max-w-full h-auto object-contain" loading="lazy" />
             </motion.div>
           </div>
         </div>
-  {/* removed mini 3D canvases (user requested) */}
-  <div className="mt-8" />
       </div>
     </section>
   );

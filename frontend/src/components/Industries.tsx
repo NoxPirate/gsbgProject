@@ -1,6 +1,5 @@
 import React from "react";
-import IndustryRobot from "./IndustryRobot";
-import StarryBackground from "./StarryBackground";
+// ...existing code...
 
 const industriesData = [
     {
@@ -30,36 +29,18 @@ const industriesData = [
 ];
 
 const Industries = () => {
-  const radius = 450; // Radius of the ring
-  const angleStep = (2 * Math.PI) / industriesData.length;
 
   return (
-    <section id="industries" className="py-20 relative overflow-hidden">
-      <StarryBackground />
+    <section id="industries" className="py-20 bg-[#07112b] text-white">
       <div className="container mx-auto text-center relative z-10">
         <h2 className="text-3xl font-bold text-center text-white mb-12">Industries</h2>
-        <div className="relative flex justify-center items-center" style={{ height: '800px' }}>
-          <div className="absolute inset-0">
-            <IndustryRobot />
-          </div>
-          {industriesData.map((industry, index) => {
-            const angle = index * angleStep;
-            const x = radius * Math.cos(angle);
-            const y = radius * Math.sin(angle);
-            return (
-              <div
-                key={index}
-                className="absolute bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
-                style={{
-                  transform: `translate(${x}px, ${y}px)`,
-                  width: '200px',
-                }}
-              >
-                <h3 className="text-lg font-bold text-primary mb-1">{industry.title}</h3>
-                <p className="text-gray text-sm">{industry.description.substring(0, 100)}...</p>
-              </div>
-            );
-          })}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {industriesData.map((industry, index) => (
+            <div key={index} className="bg-white p-6 rounded-xl hover:scale-105 transform transition-transform duration-300 shadow-lg">
+              <h3 className="text-xl font-semibold text-[var(--color-dark)] mb-2">{industry.title}</h3>
+              <p className="text-[var(--color-dark)] text-sm">{industry.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

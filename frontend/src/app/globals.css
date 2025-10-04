@@ -15,7 +15,7 @@
 
 body {
   background-color: var(--color-light);
-  color: var(--color-text);
+  color: var(--color-dark);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -82,9 +82,120 @@ body {
     margin: 0 0.125rem;
   }
 
-  header.bg-transparent .nav-link {
+  /* Ensure icons inside nav links inherit dark color */
+  .nav-link svg {
+    color: var(--color-dark);
+  }
+
+  /* Reusable glassy panel for dropdowns / overlays (very transparent) */
+  .glassy-panel {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 10px 30px rgba(2,23,42,0.04);
+    color: var(--color-dark);
+  }
+
+  /* nav-glass mirrors the header fixed glass appearance exactly by exposing the same vars used by .glass-nav
+     The actual visible surface comes from the layered .glass-filter/.glass-overlay/.glass-specular children
+     so keep .nav-glass transparent and allow the inner layers to provide the frosted appearance. */
+  .nav-glass {
+    /* dark glass variant for dropdowns */
+    --bg-color: rgba(6,12,20,0.24); /* dark tint */
+    position: relative;
+    background: transparent;
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
+    background-clip: padding-box;
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 6px 18px rgba(6,38,58,0.04);
+    color: #fff;
+    padding: 0;
+    overflow: visible;
+    border-radius: 0.75rem;
+  }
+
+  /* Glass Navigation Container (adapted from your snippet) */
+  .glass-nav {
+    --bg-color: rgba(255, 255, 255, 0.06);
+    --highlight: rgba(255, 255, 255, 0.75);
+    --text: var(--color-dark);
+    position: relative;
+    width: 100%;
+    border-radius: 0.75rem;
+    overflow: visible;
+    background: transparent;
+  }
+
+  .glass-filter,
+  .glass-overlay,
+  .glass-specular {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .glass-filter {
+    z-index: 1;
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
+    filter: saturate(120%) brightness(1.02);
+  }
+
+  .glass-overlay {
+    z-index: 2;
+    background: linear-gradient(180deg, rgba(6,12,20,0.20), rgba(6,12,20,0.18));
+  }
+
+  .glass-specular {
+    z-index: 3;
+    box-shadow: inset 1px 1px 0px rgba(255,255,255,0.06);
+  }
+
+  .glass-content {
+    position: relative;
+    z-index: 4;
+    padding: 0.5rem 1rem;
+  }
+
+  .nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .nav-item {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.18s ease;
+  }
+
+  .nav-item:hover {
+    background-color: rgba(255,255,255,0.03);
+  }
+
+  /* Make nav text white inside the glass navigation */
+  .glass-nav .nav-link,
+  .nav-glass .nav-link,
+  .glass-nav .nav-item,
+  .nav-glass .nav-item {
     color: #fff;
   }
+
+  .glass-nav .nav-link svg,
+  .nav-glass .nav-link svg {
+    color: #fff;
+  }
+
 
   header.bg-white .nav-link {
     color: var(--color-dark);
@@ -101,6 +212,16 @@ body {
 
   header.bg-white\/95 {
     background: rgba(255,255,255,0.95);
+  }
+
+  /* Strengthen glassmorphism for the top navbar only (no background color changes) */
+  header.fixed {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background-clip: padding-box; /* avoid blur bleeding */
+    /* keep existing background; add subtle divide */
+    border-bottom: 1px solid rgba(6,38,58,0.06);
+    box-shadow: 0 6px 18px rgba(6,38,58,0.04);
   }
 
   
