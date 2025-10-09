@@ -5,7 +5,7 @@ import path from 'path';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { title, excerpt, content } = body;
+    const { title, excerpt, content, featuredImage } = body;
     const dataPath = path.join(process.cwd(), 'src', 'data', 'blogs.json');
     let posts = [];
     try {
@@ -14,8 +14,10 @@ export async function POST(request: Request) {
     } catch {
       posts = [];
     }
-    const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '-' + Date.now();
-    const post = { id, title, excerpt, content };
+  const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '-' + Date.now();
+  const post: any = { id, title, excerpt, content };
+  if (featuredImage) post.featuredImage = featuredImage;
+  post.likes = 0;
     posts.unshift(post);
     fs.writeFileSync(dataPath, JSON.stringify(posts, null, 2), 'utf-8');
     return NextResponse.json({ ok: true, post });

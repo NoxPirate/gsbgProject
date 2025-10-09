@@ -88,8 +88,11 @@ const IndustryRobot = () => {
     };
     window.addEventListener('mousemove', handleMouseMove);
 
+    let rafId = 0;
+    let running = true;
     const animate = () => {
-      requestAnimationFrame(animate);
+      rafId = requestAnimationFrame(animate);
+      if (!running) return;
 
       if (headRef.current) {
         headRef.current.rotation.y = mouse.current.x * 0.5;
@@ -112,15 +115,28 @@ const IndustryRobot = () => {
     window.addEventListener('resize', handleResize);
 
     return () => {
+      // stop loops and listeners
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
-      if (currentMount) {
-        currentMount.removeChild(renderer.domElement);
+
+      try {
+        // dispose renderer resources
+        renderer.dispose();
+      } catch (e) {
+        // ignore
+      }
+
+      // only remove the DOM element if it is still attached to a parent
+      const el = renderer.domElement;
+      if (el && el.parentNode) {
+        el.parentNode.removeChild(el);
       }
     };
   }, []);
 
-  return <div ref={mountRef} style={{ width: '100%', height: '100%' }} />;
+  return <div ref={mountRef} className="w-full h-full" />;
 };
 
 export default IndustryRobot;

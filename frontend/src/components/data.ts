@@ -3,6 +3,7 @@ export const caseStudies = [
     title: "Risland India",
     summary: "Sales & Service Cloud Implementation for Real Estate",
     image: "/assets/images/Risland_India.png",
+    color: "#0b4f6c",
     goal: "To implement Salesforce Sales and Service Cloud to enhance customer experience, operational efficiency, and financial performance in the Real Estate industry.",
     implementation: [
       "Enquiry to Booking process implemented in Salesforce Platform.",
@@ -18,6 +19,7 @@ export const caseStudies = [
     title: "Hero Finance",
     summary: "CPQ Implementation involves deploying salesforce Configure, Price, Quote tools to automate product configuration, pricing, and quote generation and efficient sales processes.",
     image: "/assets/images/hero_finance.png",
+    color: "#0b7f9a",
     goal: "Streamlined pricing and quoting with a 40% reduction in quote generation time and 25% improvement in deal closures.",
     implementation: [
       "Automated quote generation and approvals.",
@@ -32,6 +34,7 @@ export const caseStudies = [
     title: "Region of Peel",
     summary: "Government Digitization is the use of digital technologies to streamline public services, improve efficiency, and enhance citizen engagement.",
     image: "/assets/images/RegionOFPeel-removebg-preview.png",
+    color: "#2b7cbe",
     goal: "Digitized operations for the Government of Canada, enabling citizens to file taxes and apply for services online.",
     implementation: [
       "Requirement analysis with user interviews.",
@@ -47,6 +50,7 @@ export const caseStudies = [
     title: "BD",
     summary: "Project Management Gantt Chart is a visual project planning tool that displays tasks along a timeline, helping teams track progress, manage dependencies, and ensure timely completion of project milestones.",
     image: "/assets/images/bd.svg",
+    color: "#6f2b8a",
     goal: "Implemented a Gantt chart system for exhaustive project management using custom LWC.",
     implementation: [
       "Integrated with custom Gantt JS library.",
@@ -59,6 +63,7 @@ export const caseStudies = [
     title: "Cloud Synapps",
     summary: "Dynamic Form System for Government refers to a digital solution that enables government agencies to create, manage, and customize interactive forms in real-time, allowing efficient data collection, automated processing, and improved citizen services through a user-friendly and adaptive interface.",
     image: "/assets/images/cloudSynaps-removebg-preview.png",
+    color: "#1f9d7a",
     goal: "Built a drag-and-drop form system with digital signatures for government use.",
     implementation: [
       "Classic to Lightning conversion.",
@@ -73,6 +78,7 @@ export const caseStudies = [
     title: "CPQ Implementation",
     summary: "Streamlined Billing and Sales Processes** refer to the integration of automated tools and workflows that simplify quoting, invoicing, and revenue management—resulting in faster transactions, reduced errors, and improved customer satisfaction.",
     image: "/assets/images/Integrate-with-Salesforce-CPQ-removebg-preview.png",
+    color: "#f48c06",
     goal: "Reduced quote generation time by 30% and billing errors by 50% with automated CPQ processes.",
     implementation: [
       "Product bundling and flexible pricing.",

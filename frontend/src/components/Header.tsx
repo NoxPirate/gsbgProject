@@ -83,10 +83,15 @@ const Header = () => {
                     onMouseEnter={() => setShowProducts(true)}
                     onMouseLeave={() => setShowProducts(false)}
                   >
-                    <button ref={productsRef} className="px-1 py-0.5 rounded-lg nav-link font-medium hover:bg-transparent flex items-center gap-1">Products
+                    <button
+                      ref={productsRef}
+                      className="px-1 py-0.5 rounded-lg nav-link font-medium hover:bg-transparent flex items-center gap-1"
+                      title="Products"
+                    >
+                      Products
                       <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </button>
-                    {showProducts && productsRect && createPortal(
+                    {showProducts && productsRect && typeof document !== 'undefined' && createPortal(
                       <div
                         className="nav-glass rounded-xl transition-all z-50"
                         style={{
@@ -118,16 +123,25 @@ const Header = () => {
                   <ScrollLink to="salesforce-apps" smooth={true} duration={500} className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent cursor-pointer">Solutions</ScrollLink>
                   <ScrollLink to="about4" smooth={true} duration={500} className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent cursor-pointer">About</ScrollLink>
 
+                  {/* Blog link */}
+                  <Link href="/blog" className="px-1 py-0.5 rounded-lg nav-link hover:bg-transparent">Blog</Link>
+
                   {/* Services dropdown (portal) */}
                   <div
                     className="relative"
                     onMouseEnter={() => setShowServices(true)}
                     onMouseLeave={() => setShowServices(false)}
                   >
-                    <button ref={servicesRef} className="px-1 py-0.5 rounded-lg nav-link font-medium hover:bg-transparent flex items-center gap-1">Services
+                    <button
+                      ref={servicesRef}
+                      className="px-1 py-0.5 rounded-lg nav-link font-medium hover:bg-transparent flex items-center gap-1"
+                      title="Services"
+                    >
+                      Services
                       <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </button>
-                    {showServices && servicesRect && createPortal(
+
+                    {showServices && servicesRect && typeof document !== 'undefined' && createPortal(
                       <div
                         className="nav-glass rounded-xl transition-all z-50"
                         style={{
@@ -152,11 +166,11 @@ const Header = () => {
                     )}
                   </div>
 
-                  <ScrollLink to="contact-form" smooth={true} duration={500} className="px-2 py-1 rounded-lg nav-link hover:bg-transparent cursor-pointer">Contact</ScrollLink>
-                </div>
-
-                <div className="md:hidden">
-                  <button onClick={() => setMenuOpen(!menuOpen)}>
+                  {/* menu toggle (desktop shows icon on the right) */}
+                  <button
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    title={menuOpen ? "Close menu" : "Open menu"}
+                  >
                     <svg
                       className="w-6 h-6"
                       fill="none"
@@ -181,6 +195,7 @@ const Header = () => {
           <div className="md:hidden p-4 rounded-b-lg nav-glass">
             <ScrollLink to="home" smooth={true} duration={500} className="block py-2 text-center nav-link hover:bg-white/5 rounded" onClick={() => setMenuOpen(false)}>Home</ScrollLink>
             <ScrollLink to="our_strength" smooth={true} duration={500} className="block py-2 text-center nav-link hover:bg-white/5 rounded" onClick={() => setMenuOpen(false)}>Our Strength</ScrollLink>
+            <Link href="/blog" className="block py-2 text-center nav-link hover:bg-white/5 rounded" onClick={() => setMenuOpen(false)}>Blog</Link>
             <Link href="/products/sales-cloud" className="block py-2 text-center nav-link hover:bg-white/5 rounded" onClick={() => setMenuOpen(false)}>Products</Link>
             <ScrollLink to="industries" smooth={true} duration={500} className="block py-2 text-center nav-link hover:bg-white/5 rounded" onClick={() => setMenuOpen(false)}>Industries</ScrollLink>
             <ScrollLink to="projects" smooth={true} duration={500} className="block py-2 text-center nav-link hover:bg-white/5 rounded" onClick={() => setMenuOpen(false)}>Case Studies</ScrollLink>

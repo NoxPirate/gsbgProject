@@ -39,7 +39,7 @@ const Products = () => {
     <section id="products" className="py-20 bg-gradient-to-b from-white to-[#f6fbff]">
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-center text-[#0b4f6c] mb-10">Products</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start justify-items-center">
           {productsData.map((product, index) => (
             <motion.div
               key={index}
@@ -47,7 +47,7 @@ const Products = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.06, duration: 0.45 }}
-              className="premium-card flex flex-col h-full"
+              className="premium-card flex flex-col h-full w-full max-w-md"
             >
               <div className="flex items-start gap-3">
                 <div className="flex-shrink-0">
