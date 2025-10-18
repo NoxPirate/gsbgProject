@@ -10,7 +10,6 @@ import CaseStudies from "@/components/CaseStudies";
 import Applications from "@/components/Applications";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
 import ThreeScenes from "@/components/ThreeScenes";
 
 export default function Home() {
@@ -18,7 +17,7 @@ export default function Home() {
     <div>
       <Header />
   <ThreeScenes />
-      <main>
+  <main>
         <Hero />
         <Demo />
         <SalesPresentation />
@@ -30,7 +29,6 @@ export default function Home() {
   <About />
         <Contact />
       </main>
-      <Footer />
     </div>
   );
 }

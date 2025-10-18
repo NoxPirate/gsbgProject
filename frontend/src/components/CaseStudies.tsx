@@ -12,7 +12,7 @@ const CaseStudies = () => {
   };
 
   return (
-  <section id="projects" className="py-20 bg-white">
+  <section id="projects" className="py-20 bg-sky-100">
       <div className="container mx-auto">
         <h2 className="text-3xl font-bold text-center text-[var(--color-dark)] mb-12">Our Case Studies</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-4">

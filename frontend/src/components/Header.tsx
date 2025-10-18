@@ -14,6 +14,45 @@ const Header = () => {
   const servicesRef = useRef<HTMLButtonElement | null>(null);
   const [productsRect, setProductsRect] = useState<DOMRect | null>(null);
   const [servicesRect, setServicesRect] = useState<DOMRect | null>(null);
+  // small delays to prevent dropdown flicker on quick mouse moves
+  const SHOW_DELAY = 120; // ms
+  const HIDE_DELAY = 240; // ms
+  const productsShowTimer = useRef<number | null>(null);
+  const productsHideTimer = useRef<number | null>(null);
+  const servicesShowTimer = useRef<number | null>(null);
+  const servicesHideTimer = useRef<number | null>(null);
+
+  const handleProductsEnter = () => {
+    if (productsHideTimer.current) {
+      clearTimeout(productsHideTimer.current);
+      productsHideTimer.current = null;
+    }
+    productsShowTimer.current = window.setTimeout(() => setShowProducts(true), SHOW_DELAY);
+  };
+
+  const handleProductsLeave = () => {
+    if (productsShowTimer.current) {
+      clearTimeout(productsShowTimer.current);
+      productsShowTimer.current = null;
+    }
+    productsHideTimer.current = window.setTimeout(() => setShowProducts(false), HIDE_DELAY);
+  };
+
+  const handleServicesEnter = () => {
+    if (servicesHideTimer.current) {
+      clearTimeout(servicesHideTimer.current);
+      servicesHideTimer.current = null;
+    }
+    servicesShowTimer.current = window.setTimeout(() => setShowServices(true), SHOW_DELAY);
+  };
+
+  const handleServicesLeave = () => {
+    if (servicesShowTimer.current) {
+      clearTimeout(servicesShowTimer.current);
+      servicesShowTimer.current = null;
+    }
+    servicesHideTimer.current = window.setTimeout(() => setShowServices(false), HIDE_DELAY);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -80,8 +119,8 @@ const Header = () => {
                   {/* Products dropdown (rendered in a portal so backdrop-filter blurs page content) */}
                   <div
                     className="relative"
-                    onMouseEnter={() => setShowProducts(true)}
-                    onMouseLeave={() => setShowProducts(false)}
+                    onMouseEnter={handleProductsEnter}
+                    onMouseLeave={handleProductsLeave}
                   >
                     <button
                       ref={productsRef}
@@ -129,8 +168,8 @@ const Header = () => {
                   {/* Services dropdown (portal) */}
                   <div
                     className="relative"
-                    onMouseEnter={() => setShowServices(true)}
-                    onMouseLeave={() => setShowServices(false)}
+                    onMouseEnter={handleServicesEnter}
+                    onMouseLeave={handleServicesLeave}
                   >
                     <button
                       ref={servicesRef}
