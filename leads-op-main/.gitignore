@@ -1,0 +1,45 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+env/
+.venv/
+# Common local virtualenv folder used in this repo
+
+# Model files
+models/*.pkl
+*.npy
+*.json
+
+# Database
+database/*.db
+*.sqlite
+*.sqlite3
+*.db
+# Common DB files and sqlite artifacts
+
+# Environment files
+*.env
+.env.*
+# Also ignore env variants
+
+# Node/Frontend builds (if any)
+.next/
+node_modules/
+dist/
+email_outbox.log
+tests/leads_export.csv
+# Logs and exports
+.vscode/
+.idea/
+.DS_Store
+# Editor / OS files
+kb/kb_chunks.json
+kb/kb_embeddings.npy
+# Knowledge base / embeddings
+*.zip
+*.tar.gz
+# Ignore large binaries or artifacts
