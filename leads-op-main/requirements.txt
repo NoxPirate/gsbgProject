@@ -1,0 +1,19 @@
+fastapi
+uvicorn[standard]
+Jinja2
+APScheduler
+sentence-transformers
+scikit-learn
+pandas
+numpy
+apscheduler
+python-multipart
+
+# Postgres & DB
+sqlalchemy
+psycopg2-binary
+python-dotenv
+email-validator
+
+# HTTP clients
+requests

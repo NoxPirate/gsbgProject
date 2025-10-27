@@ -19,17 +19,36 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3001/contact", {
+      // Use NEXT_PUBLIC_API_URL if provided; fallback to localhost:8000
+      const API_URL = (process.env.NEXT_PUBLIC_API_URL as string) || "http://localhost:8000";
+
+      const payload = {
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        source: "website-contact-form",
+      };
+
+      const response = await fetch(`${API_URL}/api/lead`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.detail || `HTTP ${response.status}`);
+      }
+
       const result = await response.json();
-      console.log(result);
-      alert("Form submitted successfully!");
+      console.log("Lead created:", result);
+      alert("Thank you — your message has been sent. We'll be in touch soon.");
+      // optionally reset form
+      setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Error submitting form. Please try again.");
+      alert("Error submitting form. Please try again later.");
     }
   };
 

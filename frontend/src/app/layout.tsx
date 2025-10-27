@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Footer from '@/components/Footer';
+import FloatingChatbot from '@/components/FloatingChatbot';
 
 export const metadata: Metadata = {
   title: "GSBG | Salesforce Partner",
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body>
         {children}
         <Footer />
+        <FloatingChatbot />
       </body>
     </html>
   );
