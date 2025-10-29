@@ -8,14 +8,24 @@ from typing import Optional
 import sqlalchemy
 import os
 import requests
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
 # local imports
+# Load local .env into environment before importing modules that read it.
+_dotenv_path = find_dotenv(usecwd=True)
+if _dotenv_path:
+    # In local dev prefer the project's .env even if a session-level env exists.
+    # This helps avoid cases where a wrong session variable (like an uppercase DB
+    # name) breaks the app on import. We intentionally override existing env
+    # values here for developer convenience.
+    load_dotenv(_dotenv_path, override=True)
+else:
+    # fallback to default behavior (no .env found)
+    load_dotenv(override=True)
+
 from core.db import init_db, insert_lead, get_all_leads, add_chatlog, add_to_retrain_queue, export_leads_csv, log_sent_message
 from core.emailer import send_email, generate_personalized_email
 from core.scheduler import start_scheduler
-
-load_dotenv()
 
 # Top-level FastAPI app (templates + API)
 app = FastAPI(title="GSBG Leads Backend")
@@ -33,13 +43,39 @@ except Exception:
     pass
 
 # Allow CORS for local dev frontends (adjust origins for production)
+# Configure CORS: allow only configured origins (don't use "*" when allow_credentials=True)
+_allowed = os.getenv("ALLOWED_ORIGINS")
+if _allowed:
+    try:
+        ALLOWED_ORIGINS = [s.strip() for s in _allowed.split(",") if s.strip()]
+    except Exception:
+        ALLOWED_ORIGINS = ["http://localhost:3000"]
+else:
+    ALLOWED_ORIGINS = ["http://localhost:3000"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Log effective config (mask password) so it's visible when the server starts.
+try:
+    import logging as _logging
+    _log = _logging.getLogger("uvicorn.error")
+    db_url = os.getenv("DATABASE_URL") or "(not set)"
+    masked = db_url
+    try:
+        # mask :password@ in URL if present
+        masked = re.sub(r':[^:@]+@', ':***@', db_url)
+    except Exception:
+        pass
+    _log.info(f"Effective DATABASE_URL={masked}")
+    _log.info(f"Effective ALLOWED_ORIGINS={','.join(ALLOWED_ORIGINS)}")
+except Exception:
+    pass
 
 # Admin list
 ADMIN_LIST = ["admin@gsbgtech.in", "superuser@gsbgtech.in"]
@@ -152,7 +188,7 @@ def require_api_key(x_api_key: Optional[str] = Header(None)):
 
 
 @app.post("/api/lead", status_code=201)
-def create_lead(payload: LeadIn, authorized: bool = Depends(require_api_key)):
+def create_lead(payload: LeadIn):
     text = payload.message or ""
     try:
         from core.model import classify_message
@@ -166,15 +202,26 @@ def create_lead(payload: LeadIn, authorized: bool = Depends(require_api_key)):
             return s, cls
 
     score, classification = classify_message(text, payload.email)
-    lead_id = insert_lead(
-        name=payload.name,
-        email=payload.email,
-        phone=payload.phone,
-        message=payload.message,
-        source=payload.source or "api",
-        score=score,
-        classification=classification,
-    )
+    try:
+        lead_id = insert_lead(
+            name=payload.name,
+            email=payload.email,
+            phone=payload.phone,
+            message=payload.message,
+            source=payload.source or "api",
+            score=score,
+            classification=classification,
+        )
+    except Exception as e:
+        # If a DB permission or other DB error occurs, return a helpful JSON error so the frontend
+        # doesn't get an opaque network error. Also log the exception server-side.
+        import traceback
+        traceback.print_exc()
+        return JSONResponse(status_code=500, content={
+            "error": "database_error",
+            "detail": str(e),
+            "help": "Check DB user privileges and ownership. Run scripts/fix_db_permissions.sql as a superuser if needed."
+        })
     try:
         add_to_retrain_queue(payload.name, payload.email, payload.message, score, classification)
     except Exception:
@@ -188,7 +235,21 @@ def create_lead(payload: LeadIn, authorized: bool = Depends(require_api_key)):
     except Exception as e:
         print("Failed to export leads CSV:", e)
 
-    # For top leads (Hot) trigger email outreach via emailer
+    # Send a confirmation email to the lead (always) and log the attempt. Separate from
+    # outreach which may target only 'hot' leads.
+    try:
+        subject_conf = "Thanks for contacting GSBG Technologies"
+        body_conf = generate_personalized_email(payload.name or "there", payload.message or "")
+        res_conf = send_email(payload.email or "", subject_conf, body_conf)
+        # record the confirmation send attempt in DB (status: sent/logged/error)
+        try:
+            log_sent_message(lead_id, "email", body_conf, status=res_conf.get("status"))
+        except Exception:
+            pass
+    except Exception as e:
+        print("Error sending confirmation email:", e)
+
+    # For top leads (Hot) trigger a follow-up outreach email via emailer
     try:
         if classification and classification.lower() == "hot":
             subject = "Thanks for contacting GSBG — we'll reach out shortly"
@@ -235,7 +296,7 @@ def list_leads(limit: int = 200):
 
 
 @app.post("/api/chatlog", status_code=201)
-def create_chatlog(payload: ChatlogIn, authorized: bool = Depends(require_api_key)):
+def create_chatlog(payload: ChatlogIn):
     clog_id = add_chatlog(
         lead_id=payload.lead_id,
         session_id=payload.session_id,
@@ -321,7 +382,7 @@ def _call_ollama(prompt: str) -> str:
 
 
 @app.post("/api/chat")
-def api_chat(payload: ChatIn, authorized: bool = Depends(require_api_key)):
+def api_chat(payload: ChatIn):
     """Central chat endpoint. If OLLAMA is configured, use it; otherwise proxy to CHATBOT_PROXY if set.
     Stores chatlog and optionally creates a lead if payload.lead provided.
     """
@@ -372,6 +433,63 @@ def api_chat(payload: ChatIn, authorized: bool = Depends(require_api_key)):
         pass
 
     return {"answer": answer, "lead_id": lead_id}
+
+
+class OutreachRequest(BaseModel):
+    min_score: Optional[int] = 0
+    classification: Optional[str] = None
+    dry_run: Optional[bool] = True
+    limit: Optional[int] = 1000
+    only_uncontacted: Optional[bool] = True
+
+
+@app.post("/admin/send_outreach")
+def send_outreach(request: OutreachRequest, authorized: bool = Depends(require_api_key)):
+    """Admin endpoint to send outreach emails to leads matching criteria.
+    Protected by BACKEND_API_KEY if set. Use dry_run=true to preview without sending.
+    """
+    leads = []
+    try:
+        leads_all = get_all_leads(limit=request.limit)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"failed to fetch leads: {e}")
+
+    # filter leads according to criteria
+    for l in leads_all:
+        if request.classification:
+            if not l.classification or l.classification.lower() != request.classification.lower():
+                continue
+        if request.min_score and (not l.score or (l.score < request.min_score)):
+            continue
+        if request.only_uncontacted and l.last_contacted:
+            # skip leads that have a last_contacted timestamp
+            continue
+        if not l.email:
+            continue
+        leads.append(l)
+
+    sent = 0
+    errors = []
+    for l in leads:
+        subject = "Thanks for contacting GSBG — we'll reach out shortly"
+        body = generate_personalized_email(l.name or "there", l.message or "")
+        try:
+            if request.dry_run:
+                # simulate send
+                res = {"status": "dry-run"}
+            else:
+                res = send_email(l.email, subject, body)
+            # log attempted send
+            try:
+                log_sent_message(l.id, "email", body, status=res.get("status"))
+            except Exception:
+                pass
+            if res and res.get("status") == "sent":
+                sent += 1
+        except Exception as e:
+            errors.append({"id": l.id, "email": l.email, "error": str(e)})
+
+    return {"candidates": len(leads), "sent": sent, "errors": errors, "dry_run": request.dry_run}
 
 
 @app.get("/health")

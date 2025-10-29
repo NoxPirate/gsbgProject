@@ -1,4 +1,5 @@
 import os
+import logging
 from datetime import datetime
 import re
 from dotenv import load_dotenv
@@ -9,25 +10,33 @@ from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 
 load_dotenv()
 
+# logger for this module
+logger = logging.getLogger("core.db")
+
 # DATABASE configuration
 DATABASE_URL = os.getenv("DATABASE_URL")
 USE_SQLITE_FALLBACK = os.getenv("USE_SQLITE_FALLBACK", "false").lower() in ("1", "true", "yes")
 
 
+# We create the engine lazily to avoid failing module import when the DB is
+# temporarily unavailable or the environment isn't set up yet (this is helpful
+# when running the dev server with a reloader or when using a `.env` file).
+engine = None
+SessionLocal = None
+Base = declarative_base()
+
+
 def _create_engine_with_fallback(db_url: str):
-    """Attempt to create a SQLAlchemy engine for db_url. If connection fails and
-    USE_SQLITE_FALLBACK is true, fall back to a local sqlite file. Returns engine and final URL."""
+    """Create a SQLAlchemy engine for db_url. Do not force an immediate DB
+    operation at import time — callers may test the connection later. If the
+    DB URL points to Postgres and connection fails, fall back to SQLite when
+    configured. Returns (engine, final_db_url)."""
+    # Try the provided URL first
     try:
         eng = create_engine(db_url, future=True)
-        # test connection eagerly to surface auth/connection errors now
-        try:
-            with eng.connect() as conn:
-                pass
-        except OperationalError:
-            raise
         return eng, db_url
-    except OperationalError as oe:
-        # If configured, fall back to sqlite instead of failing import/startup
+    except OperationalError:
+        # If configured, fall back to sqlite instead of failing
         if USE_SQLITE_FALLBACK:
             sqlite_path = os.path.join(os.getcwd(), "gsbg_dev.db")
             fallback_url = f"sqlite:///{sqlite_path}"
@@ -37,32 +46,47 @@ def _create_engine_with_fallback(db_url: str):
         raise
 
 
-# If DATABASE_URL is not provided, optionally allow a local SQLite fallback for testing
-if not DATABASE_URL:
-    if USE_SQLITE_FALLBACK:
-        sqlite_path = os.path.join(os.getcwd(), "gsbg_dev.db")
-        DATABASE_URL = f"sqlite:///{sqlite_path}"
-        engine = create_engine(DATABASE_URL, future=True, connect_args={"check_same_thread": False})
-    else:
-        raise RuntimeError(
-            "DATABASE_URL is not set. Please set DATABASE_URL to your Postgres URI, e.g. 'postgresql://user:pass@host:5432/dbname'\n"
-            "Or set USE_SQLITE_FALLBACK=true to allow a temporary local SQLite DB for testing."
-        )
-else:
-    # try to create engine and verify connection; fallback to sqlite if configured
-    try:
-        engine, DATABASE_URL = _create_engine_with_fallback(DATABASE_URL)
-    except OperationalError as e:
-        # surface a clearer message and fall back to sqlite for local dev to keep the API alive
-        print(f"[core.db] Postgres connection failed: {e}")
-        sqlite_path = os.path.join(os.getcwd(), "gsbg_dev.db")
-        DATABASE_URL = f"sqlite:///{sqlite_path}"
-        engine = create_engine(DATABASE_URL, future=True, connect_args={"check_same_thread": False})
-        print(f"[core.db] Falling back to SQLite DB at {sqlite_path} (set USE_SQLITE_FALLBACK to avoid this) ")
+def configure_engine(db_url: str = None):
+    """Initialize module-level engine and SessionLocal. Call this at startup
+    or when a DB operation is first needed. Returns (engine, DATABASE_URL)."""
+    global engine, SessionLocal, DATABASE_URL
+    if engine is not None and SessionLocal is not None:
+        return engine, DATABASE_URL
 
-# session factory
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
-Base = declarative_base()
+    if db_url is None:
+        db_url = DATABASE_URL
+
+    if not db_url:
+        if USE_SQLITE_FALLBACK:
+            sqlite_path = os.path.join(os.getcwd(), "gsbg_dev.db")
+            db_url = f"sqlite:///{sqlite_path}"
+        else:
+            raise RuntimeError(
+                "DATABASE_URL is not set. Please set DATABASE_URL to your Postgres URI, e.g. 'postgresql://user:pass@host:5432/dbname'\n"
+                "Or set USE_SQLITE_FALLBACK=true to allow a temporary local SQLite DB for testing."
+            )
+
+    try:
+        engine, final_url = _create_engine_with_fallback(db_url)
+        # configure SessionLocal now that engine exists
+        SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+        DATABASE_URL = final_url
+        return engine, DATABASE_URL
+    except OperationalError as e:
+        if USE_SQLITE_FALLBACK:
+            logger.warning("Postgres connection failed (authentication/connection). Falling back to local SQLite for development.")
+            sqlite_path = os.path.join(os.getcwd(), "gsbg_dev.db")
+            DATABASE_URL = f"sqlite:///{sqlite_path}"
+            engine = create_engine(DATABASE_URL, future=True, connect_args={"check_same_thread": False})
+            SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+            logger.info(f"Falling back to SQLite DB at {sqlite_path} (set USE_SQLITE_FALLBACK=false to disable fallback)")
+            return engine, DATABASE_URL
+        else:
+            # Surface a short, actionable error
+            raise RuntimeError(
+                "Postgres connection failed: authentication or network error. "
+                "Check your DATABASE_URL environment variable and Postgres credentials."
+            ) from e
 
 
 # ------------------ Models (matching schema.sql) ------------------
@@ -138,25 +162,23 @@ class RetrainQueue(Base):
 # ------------------ helpers ------------------
 def init_db():
     """Create all tables (call once)."""
-    if not engine:
-        raise RuntimeError("DATABASE_URL not configured; cannot init DB")
+    # Ensure engine and session factory exist. This will raise a clear error
+    # if DATABASE_URL is not set and fallback is disabled.
+    configure_engine()
     Base.metadata.create_all(bind=engine)
 
 
-# Ensure tables exist when running in a local dev fallback (sqlite). This helps keep the
-# API alive even if Postgres is unavailable and avoids 'no such table' OperationalError.
-try:
-    Base.metadata.create_all(bind=engine)
-    print("[core.db] Database tables ensured (create_all executed)")
-except Exception as _:
-    # If this fails, leave it to callers to handle; we avoid crashing on import.
-    pass
+def ensure_db():
+    """Ensure the engine/session are configured. Safe to call from library code.
+    Returns (engine, SessionLocal)."""
+    if SessionLocal is None or engine is None:
+        configure_engine()
+    return engine, SessionLocal
 
 
 def get_db_session():
     """Return a DB session (use in context-managed code)."""
-    if not SessionLocal:
-        raise RuntimeError("DATABASE_URL not configured; no session available")
+    ensure_db()
     db = SessionLocal()
     try:
         yield db
@@ -171,6 +193,7 @@ def insert_lead(name=None, email=None, phone=None, message=None, source="api", s
     """
     close_after = False
     if db_session is None:
+        ensure_db()
         if not SessionLocal:
             raise RuntimeError("DATABASE_URL not configured; cannot insert lead")
         db_session = SessionLocal()
@@ -194,6 +217,7 @@ def insert_lead(name=None, email=None, phone=None, message=None, source="api", s
 
 
 def get_all_leads(limit=200):
+    ensure_db()
     if not SessionLocal:
         return []
     db = SessionLocal()
@@ -205,6 +229,7 @@ def get_all_leads(limit=200):
 
 
 def add_chatlog(lead_id=None, session_id=None, user_message=None, bot_response=None, confidence=None, metadata=None):
+    ensure_db()
     if not SessionLocal:
         return None
     db = SessionLocal()
@@ -223,6 +248,7 @@ def add_chatlog(lead_id=None, session_id=None, user_message=None, bot_response=N
 
 
 def log_sent_message(lead_id, channel, body, status="sent"):
+    ensure_db()
     if not SessionLocal:
         return None
     db = SessionLocal()
@@ -234,6 +260,7 @@ def log_sent_message(lead_id, channel, body, status="sent"):
 
 
 def add_to_retrain_queue(name, email, message, score, classification):
+    ensure_db()
     if not SessionLocal:
         return None
     db = SessionLocal()
@@ -287,6 +314,7 @@ def update_lead_contact(lead_id=None, email=None):
     Provide either lead_id or email to locate the lead.
     Returns True if updated, False otherwise.
     """
+    ensure_db()
     if not SessionLocal:
         return False
     db = SessionLocal()

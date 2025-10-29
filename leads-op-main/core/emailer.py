@@ -4,11 +4,13 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # Use environment variables when available. Do NOT hard-code real credentials.
-EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS", "ritikv.123456789@gmail.com")  # user real sends
-EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD","")
-OWNER_PHONE = os.getenv("OWNER_PHONE", "9372904186")  # --- IGNORE ---
+# Read credentials only from environment; do not provide real-value defaults here.
+EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+OWNER_PHONE = os.getenv("OWNER_PHONE", "")
 
-OUTBOX_LOG = os.path.join(os.getcwd(), "email_outbox.log")
+# Place outbox log next to this module so it's predictable regardless of working directory
+OUTBOX_LOG = os.path.normpath(os.path.join(os.path.dirname(os.path.dirname(__file__)), "email_outbox.log"))
 
 
 def send_email(to_email, subject, body):
@@ -29,11 +31,21 @@ def send_email(to_email, subject, body):
             print(f"✅ Email sent to {to_email}")
             return {"status": "sent", "to": to_email}
         except Exception as e:
+            # Log the SMTP exception to console so admins can see why sends fail
+            try:
+                import traceback
+                traceback.print_exc()
+            except Exception:
+                pass
             print(f"❌ Email failed: {e}")
-            # fallthrough to log
+            # fallthrough to log as a record of attempted send
 
     # Dry-run: append to outbox log
     try:
+        # ensure directory exists
+        d = os.path.dirname(OUTBOX_LOG)
+        if d and not os.path.exists(d):
+            os.makedirs(d, exist_ok=True)
         with open(OUTBOX_LOG, "a", encoding="utf-8") as f:
             f.write("---\n")
             f.write(f"From: {msg['From']}\nTo: {to_email}\nSubject: {subject}\n\n{body}\n")
@@ -41,6 +53,11 @@ def send_email(to_email, subject, body):
         return {"status": "logged", "path": OUTBOX_LOG}
     except Exception as e:
         print(f"❌ Failed to write outbox log: {e}")
+        try:
+            import traceback
+            traceback.print_exc()
+        except Exception:
+            pass
         return {"status": "error", "error": str(e)}
 
 
