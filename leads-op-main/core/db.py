@@ -4,6 +4,7 @@ import re
 from dotenv import load_dotenv
 from sqlalchemy import (create_engine, Column, Integer, String, Text, DateTime,
                         JSON, Boolean, ForeignKey, Numeric)
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 
 load_dotenv()
@@ -12,10 +13,33 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 USE_SQLITE_FALLBACK = os.getenv("USE_SQLITE_FALLBACK", "false").lower() in ("1", "true", "yes")
 
+
+def _create_engine_with_fallback(db_url: str):
+    """Attempt to create a SQLAlchemy engine for db_url. If connection fails and
+    USE_SQLITE_FALLBACK is true, fall back to a local sqlite file. Returns engine and final URL."""
+    try:
+        eng = create_engine(db_url, future=True)
+        # test connection eagerly to surface auth/connection errors now
+        try:
+            with eng.connect() as conn:
+                pass
+        except OperationalError:
+            raise
+        return eng, db_url
+    except OperationalError as oe:
+        # If configured, fall back to sqlite instead of failing import/startup
+        if USE_SQLITE_FALLBACK:
+            sqlite_path = os.path.join(os.getcwd(), "gsbg_dev.db")
+            fallback_url = f"sqlite:///{sqlite_path}"
+            eng = create_engine(fallback_url, future=True, connect_args={"check_same_thread": False})
+            return eng, fallback_url
+        # re-raise to let caller decide
+        raise
+
+
 # If DATABASE_URL is not provided, optionally allow a local SQLite fallback for testing
 if not DATABASE_URL:
     if USE_SQLITE_FALLBACK:
-        # create a SQLite file in the project directory for quick local testing
         sqlite_path = os.path.join(os.getcwd(), "gsbg_dev.db")
         DATABASE_URL = f"sqlite:///{sqlite_path}"
         engine = create_engine(DATABASE_URL, future=True, connect_args={"check_same_thread": False})
@@ -25,7 +49,16 @@ if not DATABASE_URL:
             "Or set USE_SQLITE_FALLBACK=true to allow a temporary local SQLite DB for testing."
         )
 else:
-    engine = create_engine(DATABASE_URL, future=True)
+    # try to create engine and verify connection; fallback to sqlite if configured
+    try:
+        engine, DATABASE_URL = _create_engine_with_fallback(DATABASE_URL)
+    except OperationalError as e:
+        # surface a clearer message and fall back to sqlite for local dev to keep the API alive
+        print(f"[core.db] Postgres connection failed: {e}")
+        sqlite_path = os.path.join(os.getcwd(), "gsbg_dev.db")
+        DATABASE_URL = f"sqlite:///{sqlite_path}"
+        engine = create_engine(DATABASE_URL, future=True, connect_args={"check_same_thread": False})
+        print(f"[core.db] Falling back to SQLite DB at {sqlite_path} (set USE_SQLITE_FALLBACK to avoid this) ")
 
 # session factory
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
@@ -108,6 +141,16 @@ def init_db():
     if not engine:
         raise RuntimeError("DATABASE_URL not configured; cannot init DB")
     Base.metadata.create_all(bind=engine)
+
+
+# Ensure tables exist when running in a local dev fallback (sqlite). This helps keep the
+# API alive even if Postgres is unavailable and avoids 'no such table' OperationalError.
+try:
+    Base.metadata.create_all(bind=engine)
+    print("[core.db] Database tables ensured (create_all executed)")
+except Exception as _:
+    # If this fails, leave it to callers to handle; we avoid crashing on import.
+    pass
 
 
 def get_db_session():

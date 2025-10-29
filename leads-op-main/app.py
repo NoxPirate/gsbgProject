@@ -61,7 +61,7 @@ async def new_lead(name: str = Form(...), email: str = Form(...), message: str =
     try:
         from core.model import classify_message
     except Exception:
-        def classify_message(text: str):
+        def classify_message(text: str, email: str = None):
             textl = (text or "").lower()
             score = 10
             if any(w in textl for w in ["price", "cost", "quote", "budget"]):
@@ -157,7 +157,7 @@ def create_lead(payload: LeadIn, authorized: bool = Depends(require_api_key)):
     try:
         from core.model import classify_message
     except Exception:
-        def classify_message(t: str):
+        def classify_message(t: str, email: str = None):
             t = (t or "").lower()
             s = 10
             if "demo" in t or "call" in t:

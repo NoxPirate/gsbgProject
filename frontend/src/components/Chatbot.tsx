@@ -63,7 +63,7 @@ export default function Chatbot() {
           <div className="flex gap-2 items-center">
             {/* WhatsApp link: use env var if set, otherwise fallback to owner's number */}
             <a
-              href={`https://wa.me/91${process.env.NEXT_PUBLIC_OWNER_PHONE || '9100000000'}`}
+              href={`https://wa.me/91${process.env.NEXT_PUBLIC_OWNER_PHONE || '9372904186'}`}
               target="_blank"
               rel="noreferrer"
               className="bg-white/20 text-white px-3 py-1 rounded text-sm"
@@ -73,7 +73,7 @@ export default function Chatbot() {
 
             {/* Email link: use env var if set, otherwise fallback to owner's email */}
             <a
-              href={`mailto:${process.env.NEXT_PUBLIC_OWNER_EMAIL || 'sales@gsbg.co.in'}`}
+              href={`mailto:${process.env.NEXT_PUBLIC_OWNER_EMAIL || 'ritikv.123456789@gmail.com'}`}
               className="bg-white/20 text-white px-3 py-1 rounded text-sm"
             >
               Email owner

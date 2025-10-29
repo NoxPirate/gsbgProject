@@ -4,9 +4,9 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # Use environment variables when available. Do NOT hard-code real credentials.
-EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")  # user real sends
-EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
-OWNER_PHONE = os.getenv("OWNER_PHONE")  # --- IGNORE ---
+EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS", "ritikv.123456789@gmail.com")  # user real sends
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD","")
+OWNER_PHONE = os.getenv("OWNER_PHONE", "9372904186")  # --- IGNORE ---
 
 OUTBOX_LOG = os.path.join(os.getcwd(), "email_outbox.log")
 
