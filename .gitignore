@@ -43,3 +43,6 @@ models/*.pkl
 # Packages
 *.zip
 *.tar.gz
+
+# Local env files
+leads-op-main/.env
