@@ -5,7 +5,7 @@
     "excerpt": "Practical steps to modernize your sales processes using Salesforce.",
     "featuredImage": "/assets/images/Final1.png",
     "content": "<p>Sales teams move faster when they have a single source of truth. In this post we explore practical steps to modernize your sales process using <strong>Sales Cloud</strong>.</p><p><img src=\"/assets/images/hero_finance.png\" alt=\"Sales Cloud\" style=\"max-width:100%;border-radius:8px;\"/></p><h3>Key steps</h3><ul><li>Centralize customer data</li><li>Automate repetitive tasks</li><li>Use reports & dashboards to focus actions</li></ul><p>Replace this demo content from the admin to publish real articles.</p>",
-    "likes": 12
+    "likes": 14
   },
   {
     "id": "demo-20251008-2",
@@ -13,6 +13,6 @@
     "excerpt": "Improve customer satisfaction with omnichannel support strategies.",
     "featuredImage": "/assets/images/undraw_finance_m6vw.svg",
     "content": "<p>Service Cloud connects agents with customers across channels. Here are examples of building empathetic, fast support.</p><p><img src=\"/assets/images/undraw_world_bdnk.svg\" alt=\"Service Cloud\" style=\"max-width:100%;border-radius:8px;\"/></p>",
-    "likes": 13
+    "likes": 14
   }
 ]

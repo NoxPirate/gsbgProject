@@ -2,406 +2,191 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
+:root {
+  /* Premium Palette - Deep Blue & Teal with Glassmorphism */
   --color-primary: #0B63A6;
+  --color-primary-dark: #084B7F;
   --color-accent: #00BFA6;
+  --color-accent-light: #33D4BE;
   --color-dark: #06263A;
-  --color-text: #06263A;
-  --color-gray: #94A3B8;
-  --color-secondary: #F4F7FB;
-  --color-light: #FBFDFF;
-  --color-casestudy: rgba(255, 247, 238, 0.95);
+  --color-text: #0F172A;
+  --color-gray: #64748B;
+  --color-secondary: #F8FAFC;
+  --color-light: #FFFFFF;
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+  --color-glass-bg: rgba(255, 255, 255, 0.05);
+  --shadow-premium: 0 20px 40px -10px rgba(6, 38, 58, 0.1);
 }
 
 body {
   background-color: var(--color-light);
-  color: var(--color-dark);
+  color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* Prevent horizontal scroll from animations */
 }
 
 @layer utilities {
+  /* Premium Gradient Text */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass Panel - The core of the new look */
+  .glass-panel {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.4) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px rgba(6, 38, 58, 0.05);
+  }
+
+  .dark-glass-panel {
+    background: linear-gradient(180deg, rgba(6, 38, 58, 0.85) 0%, rgba(2, 23, 42, 0.95) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Animated Gradient Button */
   .animated-gradient-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
-    border-radius: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: 9999px;
     color: #fff;
-    background-image: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    background-image: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary));
     background-size: 200% 100%;
     font-weight: 600;
-    box-shadow: 0 6px 18px rgba(6,38,58,0.08);
-    transition: background-position 0.45s ease, transform 150ms ease, box-shadow 150ms ease;
+    letter-spacing: 0.025em;
+    box-shadow: 0 10px 25px -5px rgba(11, 99, 166, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
   }
 
   .animated-gradient-btn:hover {
-    background-position: right center;
+    background-position: 100% 0;
     transform: translateY(-2px);
-    box-shadow: 0 14px 40px rgba(6,38,58,0.12);
+    box-shadow: 0 20px 35px -10px rgba(11, 99, 166, 0.5);
   }
 
-  .header-deep {
-    background: linear-gradient(90deg, rgba(2,23,42,0.95), rgba(6,38,58,0.85));
-    color: #fff;
+  .animated-gradient-btn:active {
+    transform: translateY(0);
   }
 
-  .hero-overlay-deep::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(2,23,42,0.25), rgba(2,23,42,0.55));
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .hero-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: calc(100vh - 80px);
-  }
-
-  .hero-content > * {
-    background: rgba(255,255,255,0.85);
-    padding: 2.5rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 10px 30px rgba(2,23,42,0.12);
-    color: var(--color-dark);
-  }
-
-  .scrolled-text {
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-  }
-
-  /* Navbar improvements */
-  .nav-link {
-    color: var(--color-dark);
-    font-weight: 600;
-    padding: 0.5rem 0.75rem;
-    margin: 0 0.125rem;
-  }
-
-  /* Ensure icons inside nav links inherit dark color */
-  .nav-link svg {
-    color: var(--color-dark);
-  }
-
-  /* Reusable glassy panel for dropdowns / overlays (very transparent) */
-  .glassy-panel {
-    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.04);
-    box-shadow: 0 10px 30px rgba(2,23,42,0.04);
-    color: var(--color-dark);
-  }
-
-  /* Premium product card */
+  /* Premium Card */
   .premium-card {
     position: relative;
-    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.96));
-    border: 1px solid rgba(6,38,58,0.06);
-    box-shadow: 0 12px 30px rgba(6,38,58,0.06);
-    padding: 1.25rem;
-    border-radius: 0.9rem;
-    transition: transform 280ms cubic-bezier(.2,.9,.2,1), box-shadow 280ms ease;
+    background: #fff;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
+    z-index: 1;
   }
 
   .premium-card::before {
     content: "";
     position: absolute;
-    left: 0;
-    top: 0.5rem;
-    bottom: 0.5rem;
-    width: 6px;
-    background: linear-gradient(180deg, var(--color-primary), var(--color-accent));
-    border-top-left-radius: 0.6rem;
-    border-bottom-left-radius: 0.6rem;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(11, 99, 166, 0.03), rgba(0, 191, 166, 0.03));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
   }
 
   .premium-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 26px 60px rgba(6,38,58,0.12);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-premium);
+    border-color: rgba(11, 99, 166, 0.2);
   }
 
-  .premium-card h3 {
-    color: var(--color-dark);
+  .premium-card:hover::before {
+    opacity: 1;
   }
 
-  .premium-card p {
-    color: rgba(6,38,58,0.8);
-  }
-
-  /* Fallback clamp utility for 4 lines */
-  .line-clamp-4 {
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .premium-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-    color: white;
-    padding: 0.5rem 0.9rem;
-    border-radius: 999px;
-    font-weight: 600;
-    box-shadow: 0 8px 24px rgba(11,99,166,0.12);
-    transition: transform 160ms ease, opacity 160ms ease;
-  }
-
-  .premium-cta:hover { transform: translateY(-2px); opacity: 0.98; }
-
-  /* nav-glass mirrors the header fixed glass appearance exactly by exposing the same vars used by .glass-nav
-     The actual visible surface comes from the layered .glass-filter/.glass-overlay/.glass-specular children
-     so keep .nav-glass transparent and allow the inner layers to provide the frosted appearance. */
-  .nav-glass {
-    /* dark glass variant for dropdowns */
-    --bg-color: rgba(6,12,20,0.24); /* dark tint */
+  /* Hero Overlay */
+  .hero-overlay-deep {
     position: relative;
-    background: transparent;
-    -webkit-backdrop-filter: blur(40px);
-    backdrop-filter: blur(40px);
-    background-clip: padding-box;
-    border: 1px solid rgba(255,255,255,0.04);
-    box-shadow: 0 6px 18px rgba(6,38,58,0.04);
-    color: #fff;
-    padding: 0;
-    overflow: visible;
-    border-radius: 0.75rem;
   }
-
-  /* Glass Navigation Container (adapted from your snippet) */
-  .glass-nav {
-    --bg-color: rgba(255, 255, 255, 0.06);
-    --highlight: rgba(255, 255, 255, 0.75);
-    --text: var(--color-dark);
-    position: relative;
-    width: 100%;
-    border-radius: 0.75rem;
-    overflow: visible;
-    background: transparent;
-  }
-
-  .glass-filter,
-  .glass-overlay,
-  .glass-specular {
+  
+  .hero-overlay-deep::before {
+    content: "";
     position: absolute;
     inset: 0;
-    border-radius: inherit;
+    background: linear-gradient(to bottom, rgba(2, 23, 42, 0.3), rgba(2, 23, 42, 0.7));
+    z-index: 1;
     pointer-events: none;
   }
 
-  .glass-filter {
-    z-index: 1;
-    -webkit-backdrop-filter: blur(40px);
-    backdrop-filter: blur(40px);
-    filter: saturate(120%) brightness(1.02);
+  /* Navigation Glass */
+  .nav-glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   }
 
-  .glass-overlay {
-    z-index: 2;
-    background: linear-gradient(180deg, rgba(6,12,20,0.20), rgba(6,12,20,0.18));
+  /* Scroll Animations */
+  .fade-up {
+    animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0;
+    transform: translateY(20px);
   }
-
-  .glass-specular {
-    z-index: 3;
-    box-shadow: inset 1px 1px 0px rgba(255,255,255,0.06);
-  }
-
-  .glass-content {
-    position: relative;
-    z-index: 4;
-    padding: 0.5rem 1rem;
-  }
-
-  .nav-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  .nav-item {
-    color: var(--text);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
-    transition: background-color 0.18s ease;
-  }
-
-  .nav-item:hover {
-    background-color: rgba(255,255,255,0.03);
-  }
-
-  /* Center main page content by default while preserving internal grid alignment */
-  .page-center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-  }
-
-  /* Ensure grid columns keep their internal text left-aligned for readability */
-  .grid > * {
-    text-align: left;
-  }
-
-  /* Make nav text white inside the glass navigation */
-  .glass-nav .nav-link,
-  .nav-glass .nav-link,
-  .glass-nav .nav-item,
-  .nav-glass .nav-item {
-    color: #fff;
-  }
-
-  .glass-nav .nav-link svg,
-  .nav-glass .nav-link svg {
-    color: #fff;
-  }
-
-
-  header.bg-white .nav-link {
-    color: var(--color-dark);
-  }
-
-  .header-deep {
-    background: linear-gradient(90deg, rgba(2,23,42,0.95), rgba(6,38,58,0.95));
-    color: #fff;
-  }
-
-  header.bg-black\/30 {
-    background: rgba(0,0,0,0.28);
-  }
-
-  header.bg-white\/95 {
-    background: rgba(255,255,255,0.95);
-  }
-
-  /* Strengthen glassmorphism for the top navbar only (no background color changes) */
-  header.fixed {
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    background-clip: padding-box; /* avoid blur bleeding */
-    /* keep existing background; add subtle divide */
-    border-bottom: 1px solid rgba(6,38,58,0.06);
-    box-shadow: 0 6px 18px rgba(6,38,58,0.04);
-  }
-
   
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+
+  @keyframes fadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Floating Chatbot Animations */
+  @keyframes slideInUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .chatbot-enter {
+    animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
 }
-.container-background {
+
+/* Utilities for 3D/Canvas containers */
+.canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  --size: 80px; /* control the size */
-  --color: #add8e6;
-
-  background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      transparent 40%,
-      #add8e6 41%,
-      #add8e6 60%,
-      transparent 61%,
-      transparent 100%
-    ),
-    linear-gradient(
-      45deg,
-      #add8e6 25%,
-      transparent 25%,
-      transparent 50%,
-      #add8e6 50%,
-      #add8e6 75%,
-      transparent 75%,
-      transparent
-    );
-  background-size: var(--size) var(--size);
-}
-
-/* Page animation utilities */
-@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes floatY { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
-
-@layer utilities {
-  .fade-up {
-    animation: fadeUp 560ms cubic-bezier(.2,.9,.2,1) both;
-  }
-
-  .float-y {
-    animation: floatY 6s ease-in-out infinite;
-  }
-
-  .stagger-1 { animation-delay: 80ms; }
-  .stagger-2 { animation-delay: 160ms; }
-  .stagger-3 { animation-delay: 240ms; }
-  .stagger-4 { animation-delay: 320ms; }
-
-  .pattern-blob {
-    background: radial-gradient(circle at 10% 20%, rgba(11,99,166,0.08), transparent 10%), radial-gradient(circle at 80% 80%, rgba(0,191,166,0.06), transparent 18%);
-  }
-
-  /* Floating chatbot styles */
-  .floating-chatbot {
-    position: fixed;
-    right: 28px;
-    bottom: 28px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
-  }
-
-  .floating-button {
-    width: 56px;
-    height: 56px;
-    border-radius: 9999px;
-    background: linear-gradient(180deg,#077bff 0%, #0ea5ff 100%);
-    color: white;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 30px rgba(2,23,42,0.18);
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-  }
-
-  .floating-panel {
-    width: 420px;
-    max-width: calc(100vw - 48px);
-    height: 640px;
-    background: rgba(0,119,255,0.06);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(2,23,42,0.18);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .floating-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 14px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-    border-bottom: 1px solid rgba(6,38,58,0.04);
-  }
-
-  .floating-body {
-    padding: 12px;
-    flex: 1 1 auto;
-    background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.92));
-  }
-
+  pointer-events: none; /* Let clicks pass through to content */
+  z-index: 0;
 }

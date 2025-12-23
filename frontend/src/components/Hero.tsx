@@ -12,25 +12,22 @@ const container = {
 };
 
 const itemUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
 const Hero = () => {
   useEffect(() => {
     const v = document.getElementById('heroBgVideo') as HTMLVideoElement | null;
     if (v) {
-      // some browsers block autoplay unless play() is called from script even when muted
-      v.play().catch(() => {
-        // ignore play promise rejection; video will start when user interacts
-      });
+      v.play().catch(() => { });
     }
   }, []);
 
   return (
-  <section id="home" className="bg-light min-h-screen flex items-center relative hero-overlay-deep pt-32">
-      {/* background video (served from public/assets/vedio/gsbg.mp4) */}
-      <div className="absolute inset-0 z-0" aria-hidden>
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      {/* Background Video with Premium Overlay */}
+      <div className="absolute inset-0 z-0">
         <video
           id="heroBgVideo"
           className="w-full h-full object-cover"
@@ -40,39 +37,72 @@ const Hero = () => {
           loop
           playsInline
         />
+        {/* Lighter gradient overlay to make video more visible while keeping text readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-dark/80 via-dark/40 to-secondary/80" />
       </div>
 
-      {/* hero canvas host (Three.js will mount here) */}
-      <div className="absolute inset-0 z-5 opacity-90" aria-hidden>
-        <div id="heroCanvasHost" className="w-full h-full" />
-      </div>
-      <div className="max-w-6xl mx-auto px-4 relative z-10 w-full">
-        <div className="flex justify-start items-center">
-          <div className="w-full md:w-1/2 px-4">
-            <div className="backdrop-blur-sm bg-black/20 rounded-xl p-8 shadow-lg">
-              <motion.div variants={container} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
-                <motion.h1 variants={itemUp} className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4">
-                  Supercharge Your Business with Expert Salesforce Solutions
-                </motion.h1>
+      <div className="relative z-10 container mx-auto px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="glass-panel p-8 md:p-12 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl"
+          >
+            <motion.div variants={itemUp} className="mb-6">
+              <span className="px-4 py-1.5 rounded-full bg-primary/10 text-primary font-semibold text-sm tracking-wide border border-primary/20">
+                Salesforce Partner
+              </span>
+            </motion.div>
 
-                <motion.p variants={itemUp} className="text-md md:text-lg text-white mb-6 max-w-2xl">
-                  Drive growth, efficiency, and innovation with our proven Salesforce expertise — tailored to your industry and business needs. The animated background demonstrates platform energy while content remains readable.
-                </motion.p>
+            <motion.h1 variants={itemUp} className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-dark tracking-tight drop-shadow-sm">
+              Supercharge Your Business with <span className="text-gradient drop-shadow-sm">Expert Salesforce Solutions</span>
+            </motion.h1>
 
-                <motion.div variants={itemUp} className="flex flex-wrap gap-3">
-                  <motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} href="#contact-form" className="animated-gradient-btn inline-block">
-                    Let’s Talk
-                  </motion.a>
-                  <motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} href="#projects" className="bg-transparent border-2 border-white/40 text-white px-5 py-2 rounded-full hover:bg-white/10 transition-colors duration-300 inline-block">
-                    See Our Success Stories
-                  </motion.a>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
+            <motion.p variants={itemUp} className="text-lg md:text-xl text-gray-700 mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-sm font-medium">
+              Drive growth, efficiency, and innovation with our proven expertise tailored to your industry. Experience the future of business automation.
+            </motion.p>
+
+            <motion.div variants={itemUp} className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                href="#contact-form"
+                className="animated-gradient-btn w-full sm:w-auto text-lg shadow-lg shadow-primary/25"
+              >
+                Let’s Talk
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                href="#projects"
+                className="px-8 py-3.5 rounded-full bg-white text-dark font-semibold border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all w-full sm:w-auto shadow-sm"
+              >
+                View Success Stories
+              </motion.a>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
-  </section>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 1 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2"
+      >
+        <span className="text-sm font-medium text-gray-500">Scroll to explore</span>
+        <div className="w-6 h-10 rounded-full border-2 border-gray-400 flex justify-center p-1">
+          <motion.div
+            animate={{ y: [0, 12, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            className="w-1.5 h-1.5 rounded-full bg-primary"
+          />
+        </div>
+      </motion.div>
+    </section>
   );
 };
 

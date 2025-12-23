@@ -10,14 +10,12 @@ import CaseStudies from "@/components/CaseStudies";
 import Applications from "@/components/Applications";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
-import ThreeScenes from "@/components/ThreeScenes";
 
 export default function Home() {
   return (
     <div>
       <Header />
-  <ThreeScenes />
-  <main>
+      <main>
         <Hero />
         <Demo />
         <SalesPresentation />
@@ -26,7 +24,7 @@ export default function Home() {
         <Industries />
         <CaseStudies />
         <Applications />
-  <About />
+        <About />
         <Contact />
       </main>
     </div>

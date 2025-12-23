@@ -1,6 +1,7 @@
-"use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from "./ProductCard.module.css";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface Props {
   title: string;
@@ -19,7 +20,7 @@ export default function ProductCard({
   summary,
   logo,
   link = "#",
-  color = "#f40103",
+  color = "#0B63A6",
   goal,
   implementation,
   technology,
@@ -27,168 +28,102 @@ export default function ProductCard({
 }: Props) {
   const [hovered, setHovered] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
-  const cardRef = useRef<HTMLDivElement | null>(null);
-
-  function readableTextColor(hex: string) {
-    try {
-      const h = hex.replace("#", "");
-      const r = parseInt(h.substring(0, 2), 16) / 255;
-      const g = parseInt(h.substring(2, 4), 16) / 255;
-      const b = parseInt(h.substring(4, 6), 16) / 255;
-      const lum =
-        0.2126 * (r <= 0.03928 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4)) +
-        0.7152 * (g <= 0.03928 ? g / 12.92 : Math.pow((g + 0.055) / 1.055, 2.4)) +
-        0.0722 * (b <= 0.03928 ? b / 12.92 : Math.pow((b + 0.055) / 1.055, 2.4));
-      return lum > 0.5 ? "#0f172a" : "#ffffff";
-    } catch {
-      return "#ffffff";
-    }
-  }
-  const overlayTextColor = readableTextColor(color);
-
-  // Intersection observer to close details if card leaves viewport
-  useEffect(() => {
-    const node = cardRef.current;
-    if (!node) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (showDetails && entry.intersectionRatio < 0.5) {
-            setShowDetails(false);
-            setHovered(false);
-          }
-        });
-      },
-      { threshold: [0, 0.25, 0.5, 0.75, 1] }
-    );
-
-    obs.observe(node);
-    return () => obs.disconnect();
-  }, [showDetails]);
-
-  // Mouse movement for parallax tilt
-  useEffect(() => {
-    const node = cardRef.current;
-    if (!node) return;
-
-    const handleMove = (e: MouseEvent) => {
-      const rect = node.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      setMousePos({ x, y });
-      const rotateX = (y - 0.5) * -10;
-      const rotateY = (x - 0.5) * 10;
-      node.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-    };
-
-    const resetTilt = () => {
-      node.style.transform = "rotateX(0deg) rotateY(0deg)";
-    };
-
-    if (hovered) {
-      node.addEventListener("mousemove", handleMove);
-      node.addEventListener("mouseleave", resetTilt);
-    } else {
-      resetTilt();
-    }
-
-    return () => {
-      node.removeEventListener("mousemove", handleMove);
-      node.removeEventListener("mouseleave", resetTilt);
-    };
-  }, [hovered]);
 
   return (
-    <div className="flex justify-center">
+    <motion.div
+      className="relative w-full h-[420px] rounded-2xl overflow-hidden cursor-pointer group"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={() => setShowDetails(true)}
+    >
+      {/* Background with overlay */}
       <div
-        ref={cardRef}
-        className={`${styles.card} ${hovered ? styles.hovered : ""}`}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => {
-          setHovered(false);
-          if (showDetails) setShowDetails(false);
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+        style={{
+          backgroundImage: bgImage ? `url(${bgImage})` : undefined,
+          backgroundColor: color
         }}
-        style={
-          {
-            "--card-color": color,
-            "--overlay-text-color": overlayTextColor,
-            backgroundImage: bgImage
-              ? `url(${bgImage})`
-              : `linear-gradient(135deg, ${color}20, ${color}40), url('https://www.transparenttextures.com/patterns/sandpaper.png')`,
-          } as React.CSSProperties
-        }
-      >
-        {/* Parallax Logo */}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/40 to-transparent" />
+
+      {/* Content */}
+      <div className="absolute inset-0 p-8 flex flex-col justify-end text-white z-10">
         {logo && (
-          <div
-            className={`${styles.logoWrapper} ${
-              hovered ? styles.logoTopRight : styles.logoCenter
-            }`}
-            style={{
-              transform: hovered
-                ? `translate(${(mousePos.x - 0.5) * 10}px, ${(mousePos.y - 0.5) * 10}px) scale(1)`
-                : "translate(-50%, -50%) scale(1.1)",
-            }}
-          >
-            <img src={logo} alt="logo" className={styles.logoImg} />
-          </div>
-        )}
-
-        {/* Content */}
-        <div className={`${styles.content} ${hovered ? styles.contentVisible : ""}`}>
-          <div>
-            <h2 className={styles.title}>{title}</h2>
-            <p className={styles.summary}>{summary}</p>
-          </div>
-          <button
-            className={styles.exploreBtn}
-            onClick={() => {
-              setShowDetails((prev) => !prev);
-              setHovered(true);
-            }}
-          >
-            Explore More
-          </button>
-        </div>
-
-        {/* Overlay */}
-        {showDetails && (
-          <div className={styles.overlay}>
-            <div className={styles.overlayContent}>
-              <h3 className={styles.overlayTitle}>{title} — Case Study</h3>
-              {goal && <p><strong>Goal:</strong> {goal}</p>}
-              {implementation && (
-                <div className="mt-3">
-                  <strong>Implementation:</strong>
-                  <ul className="list-disc list-inside ml-4 mt-2 text-sm">
-                    {implementation.map((it, i) => (
-                      <li key={i}>{it}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {technology && (
-                <div className="mt-3">
-                  <strong>Technology Used:</strong>
-                  <div className={styles.techTags}>
-                    {technology.map((t, i) => (
-                      <span key={i} className={styles.tag}>
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              <div className="text-right mt-4">
-                <button className={styles.exploreBtn} onClick={() => setShowDetails(false)}>
-                  Close
-                </button>
-              </div>
+          <div className="absolute top-6 right-6 w-24 h-24 bg-white/10 backdrop-blur-md rounded-xl p-4 flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform duration-300">
+            <div className="relative w-full h-full">
+              <Image src={logo} alt="logo" fill className="object-contain" />
             </div>
           </div>
         )}
+
+        <h3 className="text-2xl font-bold mb-3 group-hover:text-accent transition-colors duration-300 translate-y-2 group-hover:translate-y-0">
+          {title}
+        </h3>
+
+        <p className="text-gray-200 text-sm leading-relaxed line-clamp-3 mb-6 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75">
+          {summary}
+        </p>
+
+        <button className="w-fit px-5 py-2 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-sm font-semibold hover:bg-white hover:text-primary transition-all duration-300 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 delay-100">
+          View Case Study
+        </button>
       </div>
-    </div>
+
+      {/* Details Overlay */}
+      {showDetails && (
+        <div className="absolute inset-0 z-50 bg-dark/95 backdrop-blur-xl p-8 overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+          <div className="flex justify-between items-start mb-6">
+            <h3 className="text-2xl font-bold text-white">{title}</h3>
+            <button
+              onClick={(e) => { e.stopPropagation(); setShowDetails(false); }}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            >
+              <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div className="space-y-6 text-gray-300">
+            {goal && (
+              <div>
+                <h4 className="text-accent font-semibold mb-2 uppercase text-xs tracking-wider">Goal</h4>
+                <p className="text-sm leading-relaxed">{goal}</p>
+              </div>
+            )}
+
+            {implementation && (
+              <div>
+                <h4 className="text-accent font-semibold mb-2 uppercase text-xs tracking-wider">Implementation</h4>
+                <ul className="space-y-2">
+                  {implementation.map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm">
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {technology && (
+              <div>
+                <h4 className="text-accent font-semibold mb-2 uppercase text-xs tracking-wider">Technology</h4>
+                <div className="flex flex-wrap gap-2">
+                  {technology.map((tech, i) => (
+                    <span key={i} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-gray-300">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </motion.div>
   );
 }

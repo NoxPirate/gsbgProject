@@ -10,24 +10,34 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Modern, professional palette (deep blue + teal accent + soft neutrals)
-        primary: '#0B63A6',    // strong professional blue
-        accent: '#00BFA6',     // teal accent for highlights and CTAs
-        dark: '#06263A',       // deep navy for headings and text
-        text: '#06263A',       // main text color (same as dark)
-        gray: '#94A3B8',       // neutral gray for muted text
-        secondary: '#F4F7FB',  // soft off-white backgrounds
-        light: '#FBFDFF',      // page background
-        casestudy: 'rgba(255, 247, 238, 0.95)', // warm case-study card bg
-      },
-      keyframes: {
-        floatUp: {
-          "0%": { transform: "translateY(0) rotate(0deg)", opacity: "1" },
-          "100%": { transform: "translateY(-1000px) rotate(720deg)", opacity: "0" },
+        primary: {
+          DEFAULT: '#0B63A6',
+          dark: '#084B7F',
         },
+        accent: {
+          DEFAULT: '#00BFA6',
+          light: '#33D4BE',
+        },
+        dark: '#06263A',
+        text: '#0F172A',
+        gray: '#64748B',
+        secondary: '#F8FAFC',
+        light: '#FFFFFF',
+      },
+      fontFamily: {
+        sans: ['var(--font-outfit)', 'sans-serif'],
       },
       animation: {
-        floatUp: "floatUp 25s linear infinite",
+        'float-slow': 'float 6s ease-in-out infinite',
+        'float-medium': 'float 4s ease-in-out infinite',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'spin-slow': 'spin 8s linear infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
       },
     },
   },

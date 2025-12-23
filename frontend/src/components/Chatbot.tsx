@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 type Msg = { id: string; sender: "user" | "bot"; text: string };
 
@@ -11,7 +12,6 @@ export default function Chatbot() {
   const sessionIdRef = useRef<string | null>(null);
 
   useEffect(() => {
-    // simple session id
     sessionIdRef.current = sessionIdRef.current || Math.random().toString(36).slice(2);
   }, []);
 
@@ -56,54 +56,77 @@ export default function Chatbot() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="bg-blue-600 text-white p-4 font-semibold flex items-center justify-between">
-          <span>💬 GSBG Chatbot</span>
-          <div className="flex gap-2 items-center">
-            {/* WhatsApp link: use env var if set, otherwise fallback to owner's number */}
-            <a
-              href={`https://wa.me/91${process.env.NEXT_PUBLIC_OWNER_PHONE || '9372904186'}`}
-              target="_blank"
-              rel="noreferrer"
-              className="bg-white/20 text-white px-3 py-1 rounded text-sm"
-            >
-              Contact owner on WhatsApp
-            </a>
-
-            {/* Email link: use env var if set, otherwise fallback to owner's email */}
-            <a
-              href={`mailto:${process.env.NEXT_PUBLIC_OWNER_EMAIL || 'ritikv.123456789@gmail.com'}`}
-              className="bg-white/20 text-white px-3 py-1 rounded text-sm"
-            >
-              Email owner
-            </a>
-          </div>
-        </div>
-        <div ref={messagesRef} className="p-4 h-80 overflow-y-auto bg-gray-50">
-          {messages.length === 0 && <div className="text-gray-500">Start the conversation — ask about services, pricing, or request a demo.</div>}
-          {messages.map((m) => (
-            <div key={m.id} className={`mb-3 flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}>
-              <div className={`${m.sender === "user" ? "bg-blue-600 text-white" : "bg-white text-gray-800 border"} px-4 py-2 rounded-lg max-w-[80%]`}>
-                {m.text}
-              </div>
+    <div className="flex flex-col h-full">
+      <div ref={messagesRef} className="flex-1 overflow-y-auto p-4 space-y-4">
+        {messages.length === 0 && (
+          <div className="text-center py-8">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+              👋
             </div>
-          ))}
-        </div>
-        <div className="p-4 border-t bg-white">
-          <div className="flex gap-2">
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={onKey}
-              placeholder={loading ? "Waiting for response..." : "Type your message..."}
-              className="flex-1 border px-3 py-2 rounded"
-              disabled={loading}
-            />
-            <button onClick={send} className="bg-blue-600 text-white px-4 py-2 rounded" disabled={loading}>
-              {loading ? "..." : "Send"}
-            </button>
+            <h4 className="font-semibold text-dark mb-2">Welcome to GSBG!</h4>
+            <p className="text-sm text-gray-500 max-w-[240px] mx-auto">
+              I can help you with services, pricing, or scheduling a demo. How can I assist you today?
+            </p>
           </div>
+        )}
+
+        {messages.map((m) => (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            key={m.id}
+            className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}
+          >
+            <div
+              className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${m.sender === "user"
+                  ? "bg-gradient-to-r from-primary to-primary-dark text-white rounded-tr-none"
+                  : "bg-white text-dark border border-gray-100 rounded-tl-none"
+                }`}
+            >
+              {m.text}
+            </div>
+          </motion.div>
+        ))}
+
+        {loading && (
+          <div className="flex justify-start">
+            <div className="bg-white px-4 py-3 rounded-2xl rounded-tl-none border border-gray-100 shadow-sm flex gap-1">
+              <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
+              <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100" />
+              <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200" />
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="p-4 bg-white border-t border-gray-100">
+        <div className="relative flex items-center gap-2">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={onKey}
+            placeholder="Type your message..."
+            className="flex-1 bg-gray-50 border border-gray-200 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
+            disabled={loading}
+          />
+          <button
+            onClick={send}
+            disabled={loading || !input.trim()}
+            className="p-3 bg-primary text-white rounded-xl hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+            </svg>
+          </button>
+        </div>
+        <div className="mt-2 flex justify-center gap-4 text-xs text-gray-400">
+          <a href={`https://wa.me/91${process.env.NEXT_PUBLIC_OWNER_PHONE || '9372904186'}`} target="_blank" rel="noreferrer" className="hover:text-primary transition-colors flex items-center gap-1">
+            <span>WhatsApp</span>
+          </a>
+          <span>•</span>
+          <a href={`mailto:${process.env.NEXT_PUBLIC_OWNER_EMAIL || 'ritikv.123456789@gmail.com'}`} className="hover:text-primary transition-colors flex items-center gap-1">
+            <span>Email</span>
+          </a>
         </div>
       </div>
     </div>
