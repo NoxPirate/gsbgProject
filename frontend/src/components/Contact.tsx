@@ -10,6 +10,9 @@ const Contact = () => {
     message: "",
   });
 
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(false);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -53,13 +56,12 @@ const Contact = () => {
     }
   };
 
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState(false);
-
   return (
     <section id="contact-form" className="py-20 bg-[#07112b] text-white">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-extrabold text-center text-white mb-4">Get in Touch</h2>
+        <h2 className="text-3xl md:text-5xl font-extrabold text-center text-white mb-6">
+          Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-accent">Get in Touch?</span>
+        </h2>
         <p className="text-center text-lg text-gray-300 mb-12">We’d love to hear from you! Fill out the form or visit us at our location.</p>
 
           <div className="flex flex-col md:flex-row">
@@ -83,7 +85,7 @@ const Contact = () => {
                         value={formData.firstName}
                         onChange={handleChange}
                         required
-                        className="w-full bg-white px-4 py-3 rounded-2xl shadow-sm focus:outline-none placeholder:text-gray-500 text-[var(--color-dark)]"
+                        className="w-full bg-white px-4 py-3 rounded-2xl shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-x-2 focus:border-[#12B1D1] placeholder:text-gray-400 text-[var(--color-dark)]"
                       />
                     </div>
                     <div>
@@ -95,7 +97,7 @@ const Contact = () => {
                         value={formData.lastName}
                         onChange={handleChange}
                         required
-                        className="w-full bg-white px-4 py-3 rounded-2xl shadow-sm focus:outline-none placeholder:text-gray-500 text-[var(--color-dark)]"
+                        className="w-full bg-white px-4 py-3 rounded-2xl shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-x-2 focus:border-[#12B1D1] placeholder:text-gray-400 text-[var(--color-dark)]"
                       />
                     </div>
                   </div>
@@ -138,7 +140,7 @@ const Contact = () => {
                       onChange={handleChange}
                       rows={3}
                       required
-                      className="w-full bg-white px-4 py-3 rounded-2xl shadow-sm focus:outline-none placeholder:text-gray-500 text-[var(--color-dark)]"
+                      className="w-full bg-white px-4 py-3 rounded-2xl shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-x-2 focus:border-[#12B1D1] placeholder:text-gray-400 text-[var(--color-dark)]"
                     ></textarea>
                   </div>
 
@@ -153,16 +155,18 @@ const Contact = () => {
 
             {/* CONTACT INFO */}
             <div className="md:w-1/2 mt-10 md:mt-0 flex items-center">
-              <div className="w-full bg-white/3 p-6 rounded-xl">
-                <p className="mb-6 text-[var(--color-dark)]">
-                  <strong className="text-[var(--color-dark)]">GSBG Technologies</strong> <br />
-                  Shop No - 18, LODHA ELITE, Near Nilje Railway Station, <br />
-                  Dombivali East, Thane, Pin-421204, Maharashtra, India
-                </p>
-                <p className="mb-6 text-[var(--color-dark)]">
-                  <strong className="text-[var(--color-dark)]">EMAIL US :</strong>
-                  <a href="mailto:sales@gsbg.co.in" className="text-[var(--color-dark)] ml-1 underline">sales@gsbg.co.in</a>
-                </p>
+              <div className="w-full bg-white/5 p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
+                <div className="mb-8">
+                  <h3 className="text-xl font-bold text-white mb-2">GSBG Technologies</h3>
+                  <p className="text-white/80 leading-relaxed">
+                    Shop No - 18, LODHA ELITE, Near Nilje Railway Station,<br />
+                    Dombivali East, Thane, Pin-421204, Maharashtra, India
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2">Email Us</h3>
+                  <a href="mailto:sales@gsbg.co.in" className="text-accent hover:text-white transition-colors">sales@gsbg.co.in</a>
+                </div>
               </div>
             </div>
           </div>

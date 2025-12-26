@@ -61,7 +61,7 @@ const Industries = () => {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-bold text-white mb-6"
           >
-            Tailored Solutions for <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-light to-accent">Every Sector</span>
+            Tailored Solutions for <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-accent">Every Sector</span>
           </motion.h2>
         </div>
 
@@ -82,7 +82,7 @@ const Industries = () => {
                   {industry.icon}
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3 group-hover:text-accent transition-colors">{industry.title}</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">{industry.description}</p>
+                <p className="text-white/80 text-sm leading-relaxed">{industry.description}</p>
               </div>
             </motion.div>
           ))}

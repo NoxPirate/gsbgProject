@@ -52,7 +52,7 @@ export default function ProductCard({
       {/* Content */}
       <div className="absolute inset-0 p-8 flex flex-col justify-end text-white z-10">
         {logo && (
-          <div className="absolute top-6 right-6 w-24 h-24 bg-white/10 backdrop-blur-md rounded-xl p-4 flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform duration-300">
+          <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-24 bg-white/10 backdrop-blur-md rounded-xl p-4 flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform duration-300">
             <div className="relative w-full h-full">
               <Image src={logo} alt="logo" fill className="object-contain" />
             </div>
@@ -87,7 +87,7 @@ export default function ProductCard({
             </button>
           </div>
 
-          <div className="space-y-6 text-gray-300">
+          <div className="space-y-6 text-white/80">
             {goal && (
               <div>
                 <h4 className="text-accent font-semibold mb-2 uppercase text-xs tracking-wider">Goal</h4>
@@ -101,7 +101,7 @@ export default function ProductCard({
                 <ul className="space-y-2">
                   {implementation.map((item, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm">
-                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -114,7 +114,7 @@ export default function ProductCard({
                 <h4 className="text-accent font-semibold mb-2 uppercase text-xs tracking-wider">Technology</h4>
                 <div className="flex flex-wrap gap-2">
                   {technology.map((tech, i) => (
-                    <span key={i} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-gray-300">
+                    <span key={i} className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs text-white">
                       {tech}
                     </span>
                   ))}

@@ -50,7 +50,9 @@ const Applications = () => {
   return (
   <section id="salesforce-apps" className="py-20 bg-sky-200">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center text-[var(--color-dark)] mb-12">Applications</h2>
+        <h2 className="text-3xl md:text-5xl font-bold text-center text-slate-900 mb-12">
+          Transformative <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">Solutions</span>
+        </h2>
         <Slider {...settings}>
           {applications.map((app, index) => (
             <div key={index} className="p-4">

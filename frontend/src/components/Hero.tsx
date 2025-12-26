@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
-const container = {
+const container: Variants = {
   hidden: {},
   show: {
     transition: {
@@ -11,7 +11,7 @@ const container = {
   },
 };
 
-const itemUp = {
+const itemUp: Variants = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
@@ -25,14 +25,14 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-36">
       {/* Background Video with Premium Overlay */}
       <div className="absolute inset-0 z-0">
         <video
           id="heroBgVideo"
           className="w-full h-full object-cover"
           src="/assets/vedio/gsbg3.mp4"
-          preload="auto"
+          preload="metadata"
           muted
           loop
           playsInline
@@ -42,13 +42,13 @@ const Hero = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-6">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-5xl mx-auto text-center">
           <motion.div
             variants={container}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="glass-panel p-8 md:p-12 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl"
+            className="glass-panel p-6 md:p-10 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl"
           >
             <motion.div variants={itemUp} className="mb-6">
               <span className="px-4 py-1.5 rounded-full bg-primary/10 text-primary font-semibold text-sm tracking-wide border border-primary/20">
@@ -60,7 +60,7 @@ const Hero = () => {
               Supercharge Your Business with <span className="text-gradient drop-shadow-sm">Expert Salesforce Solutions</span>
             </motion.h1>
 
-            <motion.p variants={itemUp} className="text-lg md:text-xl text-gray-700 mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-sm font-medium">
+            <motion.p variants={itemUp} className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto leading-relaxed drop-shadow-sm font-medium">
               Drive growth, efficiency, and innovation with our proven expertise tailored to your industry. Experience the future of business automation.
             </motion.p>
 

@@ -14,7 +14,9 @@ const About = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center text-[var(--color-dark)] mb-12">About Us</h2>
+        <h2 className="text-3xl md:text-5xl font-bold text-center text-slate-900 mb-12">
+          More <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">About Us</span>
+        </h2>
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 md:pr-12">
             <h3 className="text-2xl font-bold text-primary mb-4">Who Are We?</h3>

@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -9,7 +10,16 @@ const Footer = () => {
           <Image src="/assets/images/Extreme_FInal-removebg-preview.png" alt="GSBG Logo" width={400} height={120} className="h-12 md:h-14 w-auto mb-4" />
           <p className="mb-3 text-sm font-medium">Trust · Value · Velocity</p>
           <p className="text-sm text-gray-600 max-w-xl">We help organizations accelerate revenue, improve customer experience, and modernize operations with cloud-first architectures and pragmatic delivery.</p>
-          <p className="text-sm mt-4 text-gray-500">© 2025 GSBG. Managed by GSBG. All Rights Reserved.</p>
+          <div className="flex flex-wrap gap-2 text-sm text-sky-600 mt-6 mb-2">
+            <Link href="/legal/privacy-notice" className="hover:underline">Privacy Notice</Link>
+            <span className="text-gray-300">|</span>
+            <Link href="/legal/cookie-policy" className="hover:underline">Cookie Policy</Link>
+            <span className="text-gray-300">|</span>
+            <Link href="/legal/statutory-compliance" className="hover:underline">Statutory Compliance</Link>
+            <span className="text-gray-300">|</span>
+            <Link href="/legal/terms-of-use" className="hover:underline">Term of Use</Link>
+          </div>
+          <p className="text-sm mt-2 text-gray-500">© 2025 GSBG. Managed by GSBG. All Rights Reserved.</p>
         </div>
 
         <div className="md:w-1/3 grid grid-cols-2 gap-6">
@@ -18,8 +28,9 @@ const Footer = () => {
             <ul className="text-sm text-gray-600 space-y-1">
               <li><a href="/products/sales-cloud" className="hover:text-sky-600 transition">Sales Cloud</a></li>
               <li><a href="/products/service-cloud" className="hover:text-sky-600 transition">Service Cloud</a></li>
-              <li><a href="/products/cpq" className="hover:text-sky-600 transition">CPQ</a></li>
               <li><a href="/products/financial-cloud" className="hover:text-sky-600 transition">Financial Cloud</a></li>
+              <li><a href="/products/marketing-cloud" className="hover:text-sky-600 transition">Marketing Cloud</a></li>
+              <li><a href="/products/cpq" className="hover:text-sky-600 transition">CPQ</a></li>
             </ul>
           </div>
           <div>
