@@ -1,15 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Chatbot from "@/components/Chatbot";
 import { motion, AnimatePresence } from "framer-motion";
+import { useChatbot } from "@/context/ChatbotContext";
 
 export default function FloatingChatbot() {
-  const [open, setOpen] = useState(false);
+  const { isOpen, closeChatbot, toggleChatbot } = useChatbot();
 
   return (
     <div className="fixed right-6 bottom-6 z-50 flex flex-col items-end gap-4">
       <AnimatePresence>
-        {open && (
+        {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -31,7 +32,7 @@ export default function FloatingChatbot() {
                 </div>
               </div>
               <button
-                onClick={() => setOpen(false)}
+                onClick={closeChatbot}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                 aria-label="Close chat"
               >
@@ -51,13 +52,14 @@ export default function FloatingChatbot() {
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        onClick={() => setOpen(!open)}
-        className={`w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-2xl transition-all duration-300 ${open
+        onClick={toggleChatbot}
+        suppressHydrationWarning
+        className={`w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-2xl transition-all duration-300 ${isOpen
             ? "bg-white text-primary rotate-90"
             : "bg-gradient-to-r from-primary to-accent text-white hover:shadow-primary/50"
           }`}
       >
-        {open ? (
+        {isOpen ? (
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>

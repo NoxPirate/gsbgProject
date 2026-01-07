@@ -46,10 +46,10 @@ export default function CPQPage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="px-8 py-4 rounded-full bg-[#4B9CD3] text-white font-bold text-lg hover:bg-[#3a8bc0] transition-all transform hover:scale-105 shadow-lg shadow-blue-500/25">
+              <button className="px-8 py-4 rounded-full bg-[#4B9CD3] text-white font-bold text-lg hover:bg-[#3a8bc0] transition-all transform hover:scale-105 shadow-lg shadow-blue-500/25" suppressHydrationWarning>
                 Start My Assessment
               </button>
-              <button className="px-8 py-4 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white font-bold text-lg hover:bg-white/20 transition-all">
+              <button className="px-8 py-4 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white font-bold text-lg hover:bg-white/20 transition-all" suppressHydrationWarning>
                 View Demo
               </button>
             </div>

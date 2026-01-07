@@ -138,6 +138,7 @@ const Header = () => {
                       ref={productsRef}
                       className="px-1 py-0.5 rounded-lg nav-link font-medium hover:bg-transparent flex items-center gap-1"
                       title="Products"
+                      suppressHydrationWarning
                     >
                       Products
                       <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -187,6 +188,24 @@ const Header = () => {
                               </span>
                               Marketing Cloud
                             </Link>
+                            <Link href="/products/community-cloud" className="group flex items-center gap-3 px-3 py-2 text-sm text-dark font-medium rounded-lg hover:bg-black/5 transition-all">
+                               <span className="p-2 rounded-md bg-indigo-50 text-indigo-600 group-hover:scale-110 transition-transform">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                               </span>
+                              Community Cloud
+                            </Link>
+                            <Link href="/products/experience-cloud" className="group flex items-center gap-3 px-3 py-2 text-sm text-dark font-medium rounded-lg hover:bg-black/5 transition-all">
+                               <span className="p-2 rounded-md bg-sky-50 text-sky-600 group-hover:scale-110 transition-transform">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                               </span>
+                              Experience Cloud
+                            </Link>
+                            <Link href="/products/velocity-industries" className="group flex items-center gap-3 px-3 py-2 text-sm text-dark font-medium rounded-lg hover:bg-black/5 transition-all">
+                               <span className="p-2 rounded-md bg-purple-50 text-purple-600 group-hover:scale-110 transition-transform">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                               </span>
+                              Velocity (Industries)
+                            </Link>
                           </div>
                         </div>
                       </div>,
@@ -212,6 +231,7 @@ const Header = () => {
                       ref={servicesRef}
                       className="px-1 py-0.5 rounded-lg nav-link font-medium hover:bg-transparent flex items-center gap-1"
                       title="Services"
+                      suppressHydrationWarning
                     >
                       Services
                       <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -263,6 +283,7 @@ const Header = () => {
                   onClick={() => setMenuOpen(!menuOpen)}
                   title={menuOpen ? "Close menu" : "Open menu"}
                   className="md:hidden p-2 rounded-full hover:bg-black/5"
+                  suppressHydrationWarning
                 >
                   <svg
                     className="w-6 h-6 text-slate-700"
@@ -318,6 +339,9 @@ const Header = () => {
                    <Link href="/products/cpq" className="block py-2 text-slate-600 hover:text-blue-600 pl-3 border-l-2 border-slate-100 hover:border-blue-500 mb-1" onClick={() => setMenuOpen(false)}>CPQ</Link>
                    <Link href="/products/financial-cloud" className="block py-2 text-slate-600 hover:text-blue-600 pl-3 border-l-2 border-slate-100 hover:border-blue-500 mb-1" onClick={() => setMenuOpen(false)}>Financial Cloud</Link>
                    <Link href="/products/marketing-cloud" className="block py-2 text-slate-600 hover:text-blue-600 pl-3 border-l-2 border-slate-100 hover:border-blue-500 mb-1" onClick={() => setMenuOpen(false)}>Marketing Cloud</Link>
+                   <Link href="/products/community-cloud" className="block py-2 text-slate-600 hover:text-blue-600 pl-3 border-l-2 border-slate-100 hover:border-blue-500 mb-1" onClick={() => setMenuOpen(false)}>Community Cloud</Link>
+                   <Link href="/products/experience-cloud" className="block py-2 text-slate-600 hover:text-blue-600 pl-3 border-l-2 border-slate-100 hover:border-blue-500 mb-1" onClick={() => setMenuOpen(false)}>Experience Cloud</Link>
+                   <Link href="/products/velocity-industries" className="block py-2 text-slate-600 hover:text-blue-600 pl-3 border-l-2 border-slate-100 hover:border-blue-500 mb-1" onClick={() => setMenuOpen(false)}>Velocity (Industries)</Link>
                  </div>
 
                  <div className="py-2">

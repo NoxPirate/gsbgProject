@@ -86,6 +86,7 @@ const Contact = () => {
                         onChange={handleChange}
                         required
                         className="w-full bg-white px-4 py-3 rounded-2xl shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-x-2 focus:border-[#12B1D1] placeholder:text-gray-400 text-[var(--color-dark)]"
+                        suppressHydrationWarning
                       />
                     </div>
                     <div>
@@ -98,6 +99,7 @@ const Contact = () => {
                         onChange={handleChange}
                         required
                         className="w-full bg-white px-4 py-3 rounded-2xl shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-x-2 focus:border-[#12B1D1] placeholder:text-gray-400 text-[var(--color-dark)]"
+                        suppressHydrationWarning
                       />
                     </div>
                   </div>
@@ -113,6 +115,7 @@ const Contact = () => {
                         onChange={handleChange}
                         required
                         className="w-full bg-white px-4 py-3 rounded-2xl shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-x-2 focus:border-[#12B1D1] placeholder:text-gray-400 text-[var(--color-dark)]"
+                        suppressHydrationWarning
                       />
                     </div>
                     <div>
@@ -127,6 +130,7 @@ const Contact = () => {
                         placeholder="e.g., 1234567890"
                         required
                         className="w-full bg-white px-4 py-3 rounded-2xl shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-x-2 focus:border-[#12B1D1] placeholder:text-gray-400 text-[var(--color-dark)]"
+                        suppressHydrationWarning
                       />
                     </div>
                   </div>
@@ -141,10 +145,11 @@ const Contact = () => {
                       rows={3}
                       required
                       className="w-full bg-white px-4 py-3 rounded-2xl shadow-[0_10px_10px_-5px_#cff0ff] focus:outline-none focus:border-x-2 focus:border-[#12B1D1] placeholder:text-gray-400 text-[var(--color-dark)]"
+                      suppressHydrationWarning
                     ></textarea>
                   </div>
 
-                  <button type="submit" className="w-full py-3 font-bold text-white rounded-2xl bg-[var(--color-primary)] transition-transform duration-200 hover:opacity-95 active:scale-95">Submit</button>
+                  <button type="submit" className="w-full py-3 font-bold text-white rounded-2xl bg-[var(--color-primary)] transition-transform duration-200 hover:opacity-95 active:scale-95" suppressHydrationWarning>Submit</button>
                   {error && (
                     <div className="mt-4 text-sm text-red-600">There was an error submitting. Please try again or contact us at <a href="mailto:sales@gsbg.co.in" className="underline">sales@gsbg.co.in</a>.</div>
                   )}

@@ -6,37 +6,50 @@ const productsData = [
   {
     title: "Service Cloud",
     description: "We implement and optimize Salesforce Service Cloud to enhance customer service operations. This includes case management, automation, knowledge base integration, and AI-driven support for faster, more efficient resolution of customer issues.",
-    icon: "🛠️"
+    icon: "🛠️",
+    link: "/products/service-cloud"
   },
   {
     title: "Sales Cloud",
     description: "Our team leverages Salesforce Sales Cloud to streamline and supercharge sales processes. From lead generation and pipeline management to forecasting and analytics, we help businesses increase sales productivity and close deals faster.",
-    icon: "📈"
+    icon: "📈",
+    link: "/products/sales-cloud"
   },
   {
     title: "Marketing Cloud",
     description: "We deploy Salesforce Marketing Cloud solutions to create personalized, multi-channel marketing campaigns. Our expertise includes customer journey automation, email marketing, social media engagement, and marketing analytics.",
-    icon: "📢"
+    icon: "📢",
+    link: "/products/marketing-cloud"
+  },
+  {
+    title: "Financial Cloud",
+    description: "Unify client relationships, automate compliance, and deliver personalized financial advice at scale. Secure, compliant, and data-driven solutions for modern financial institutions.",
+    icon: "🏦",
+    link: "/products/financial-cloud"
   },
   {
     title: "Community Cloud",
     description: "Using Salesforce Community Cloud (now known as Experience Cloud), we build branded customer, partner, and employee portals that promote collaboration, self-service, and engagement.",
-    icon: "🤝"
+    icon: "🤝",
+    link: "/products/community-cloud"
   },
   {
     title: "CPQ (Configure, Price, Quote)",
     description: "Our team implements Salesforce CPQ to simplify the configuration of complex product offerings, automate pricing rules, and generate error-free quotes quickly—accelerating the quote-to-cash process.",
-    icon: "⚙️"
+    icon: "⚙️",
+    link: "/products/cpq"
   },
   {
     title: "Experience Cloud",
     description: "With Salesforce Experience Cloud, we design interactive digital experiences that are deeply integrated with CRM data, enabling personalized web portals, forums, and mobile apps for users and stakeholders.",
-    icon: "🌐"
+    icon: "🌐",
+    link: "/products/experience-cloud"
   },
   {
     title: "Velocity (Salesforce Industries)",
     description: "We specialize in Velocity, now known as Salesforce Industries, offering pre-built industry-specific solutions. This includes tailored CRM systems for sectors like telecommunications, insurance, healthcare, and public services.",
-    icon: "🚀"
+    icon: "🚀",
+    link: "/products/velocity-industries"
   },
 ];
 
@@ -104,7 +117,7 @@ const Products = () => {
               </p>
 
               <div className="mt-auto pt-4 border-t border-gray-100">
-                <a href="#" className="inline-flex items-center text-primary font-semibold hover:text-accent transition-colors group/link">
+                <a href={product.link} className="inline-flex items-center text-primary font-semibold hover:text-accent transition-colors group/link">
                   Learn more
                   <svg className="w-4 h-4 ml-2 transform group-hover/link:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />

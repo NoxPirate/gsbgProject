@@ -37,6 +37,11 @@ const applications = [
 ];
 
 const Applications = () => {
+    const [mounted, setMounted] = React.useState(false);
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -48,29 +53,83 @@ const Applications = () => {
   };
 
   return (
-  <section id="salesforce-apps" className="py-20 bg-sky-200">
-      <div className="container mx-auto">
-        <h2 className="text-3xl md:text-5xl font-bold text-center text-slate-900 mb-12">
-          Transformative <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">Solutions</span>
+    <section id="salesforce-apps" className="py-24 bg-sky-100">
+      <div className="container mx-auto px-6">
+        <h2 className="text-4xl md:text-5xl font-bold text-center text-slate-900 mb-16">
+          Transformative <span className="text-blue-600">Solutions</span>
         </h2>
-        <Slider {...settings}>
-          {applications.map((app, index) => (
-            <div key={index} className="p-4">
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row">
-                <div className="md:w-1/2 p-6 flex flex-col justify-center">
-                  <h3 className="text-2xl font-bold text-primary mb-4">{app.title}</h3>
-                  <p className="mb-2 text-gray"><strong className="text-[var(--color-dark)]">What:</strong> {app.what}</p>
-                  <p className="mb-2 text-gray"><strong className="text-[var(--color-dark)]">How:</strong> {app.how}</p>
-                  <p className="text-gray"><strong className="text-[var(--color-dark)]">Usage:</strong> {app.usage}</p>
+        
+        <div className="max-w-6xl mx-auto">
+          {mounted && (
+            <Slider {...settings}>
+                {applications.map((app, index) => (
+                <div key={index} className="px-2 pb-12">
+                    <div className="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[400px]">
+                    {/* Left Content Side */}
+                    <div className="md:w-1/2 p-6 md:p-8 flex flex-col justify-center bg-white order-2 md:order-1">
+                        <h3 className="text-2xl md:text-3xl font-bold text-[#0B63A6] mb-4 leading-tight">
+                        {app.title}
+                        </h3>
+                        
+                        <div className="space-y-4">
+                        <div>
+                            <span className="block text-slate-900 font-bold text-base mb-1">What:</span>
+                            <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                            {app.what}
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <span className="block text-slate-900 font-bold text-base mb-1">How:</span>
+                            <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                            {app.how}
+                            </p>
+                        </div>
+
+                        <div>
+                            <span className="block text-slate-900 font-bold text-base mb-1">Usage:</span>
+                            <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                            {app.usage}
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+
+                    {/* Right Image Side */}
+                    <div className="md:w-1/2 bg-[#0B1521] flex items-center justify-center p-8 order-1 md:order-2 relative overflow-hidden">
+                        <div className="absolute inset-0 bg-blue-500/5 rounded-full blur-3xl scale-150 transform translate-x-1/2 translate-y-1/2"></div>
+                        <div className="relative z-10 w-full h-48 md:h-auto flex items-center justify-center">
+                        <Image 
+                            src={app.image} 
+                            alt={app.title} 
+                            width={400} 
+                            height={300} 
+                            className="object-contain max-h-[250px] w-auto drop-shadow-2xl"
+                            style={{ width: 'auto', height: 'auto' }}
+                        />
+                        </div>
+                    </div>
+                    </div>
                 </div>
-                <div className="md:w-1/2 flex items-center justify-center p-6 bg-dark">
-                  <Image src={app.image} alt={app.title} width={300} height={200} style={{ height: "auto" }} />
-                </div>
-              </div>
-            </div>
-          ))}
-        </Slider>
+                ))}
+            </Slider>
+          )}
+        </div>
       </div>
+
+      {/* Style overrides for dots to utilize theme colors */}
+      <style jsx global>{`
+        .slick-dots li button:before {
+          font-size: 12px;
+          color: #0B63A6;
+        }
+        .slick-dots li.slick-active button:before {
+          color: #0B63A6;
+        }
+        .slick-prev:before, .slick-next:before {
+          color: #0B63A6;
+        }
+      `}</style>
     </section>
   );
 };

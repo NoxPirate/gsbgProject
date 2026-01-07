@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { motion, Variants } from "framer-motion";
+import { useChatbot } from "@/context/ChatbotContext";
 
 const container: Variants = {
   hidden: {},
@@ -17,6 +18,7 @@ const itemUp: Variants = {
 };
 
 const Hero = () => {
+  const { openChatbot } = useChatbot();
   useEffect(() => {
     const v = document.getElementById('heroBgVideo') as HTMLVideoElement | null;
     if (v) {
@@ -65,14 +67,15 @@ const Hero = () => {
             </motion.p>
 
             <motion.div variants={itemUp} className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <motion.a
+              <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                href="#contact-form"
+                onClick={openChatbot}
                 className="animated-gradient-btn w-full sm:w-auto text-lg shadow-lg shadow-primary/25"
+                suppressHydrationWarning
               >
                 Let’s Talk
-              </motion.a>
+              </motion.button>
               <motion.a
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

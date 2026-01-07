@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import Footer from '@/components/Footer';
 import FloatingChatbot from '@/components/FloatingChatbot';
+import { ChatbotProvider } from "@/context/ChatbotContext";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -21,11 +22,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} scroll-smooth`}>
+    <html lang="en" className={`${outfit.variable} scroll-smooth`} data-scroll-behavior="smooth">
       <body className="font-sans antialiased bg-secondary text-text selection:bg-accent selection:text-white">
-        {children}
-        <Footer />
-        <FloatingChatbot />
+        <ChatbotProvider>
+          {children}
+          <Footer />
+          <FloatingChatbot />
+        </ChatbotProvider>
       </body>
     </html>
   );

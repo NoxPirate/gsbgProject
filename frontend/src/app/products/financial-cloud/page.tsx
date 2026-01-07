@@ -45,10 +45,10 @@ export default function FinancialCloudPage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="px-8 py-4 rounded-full bg-[#00D4BD] text-[#002A26] font-bold text-lg hover:bg-[#00ebd1] transition-all transform hover:scale-105 shadow-lg shadow-teal-500/25">
+              <button className="px-8 py-4 rounded-full bg-[#00D4BD] text-[#002A26] font-bold text-lg hover:bg-[#00ebd1] transition-all transform hover:scale-105 shadow-lg shadow-teal-500/25" suppressHydrationWarning>
                 Explore Solutions
               </button>
-              <button className="px-8 py-4 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white font-bold text-lg hover:bg-white/20 transition-all">
+              <button className="px-8 py-4 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white font-bold text-lg hover:bg-white/20 transition-all" suppressHydrationWarning>
                 Watch Demo
               </button>
             </div>

@@ -52,7 +52,7 @@ export default function ProductCard({
       {/* Content */}
       <div className="absolute inset-0 p-8 flex flex-col justify-end text-white z-10">
         {logo && (
-          <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-24 bg-white/10 backdrop-blur-md rounded-xl p-4 flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform duration-300">
+          <div className="absolute top-6 left-1/2 -translate-x-1/2 w-52 h-32 bg-white/10 backdrop-blur-md rounded-xl p-4 flex items-center justify-center border border-white/20 shadow-lg group-hover:scale-110 transition-transform duration-300">
             <div className="relative w-full h-full">
               <Image src={logo} alt="logo" fill className="object-contain" />
             </div>

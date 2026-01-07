@@ -3,7 +3,7 @@ import AnimatedBackground from "./AnimatedBackground";
 
 const SalesPresentation = () => {
   return (
-  <section id="sales-presentaton" className="relative overflow-hidden py-20">
+  <section id="sales-presentation" className="relative overflow-hidden py-20">
       <AnimatedBackground />
       <div className="container mx-auto relative z-10">
         <h2 className="text-3xl font-bold text-center text-white mb-12">Sales Presentation Demo</h2>
