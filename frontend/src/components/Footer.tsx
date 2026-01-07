@@ -56,50 +56,21 @@ const Footer = () => {
              </div>
           </div>
 
-          {/* Column 2: Products */}
-          <div>
-            <h4 className="text-white font-bold text-lg mb-6">Our Products</h4>
-            <ul className="space-y-3">
-              {[
-                { name: "Sales Cloud", href: "/products/sales-cloud" },
-                { name: "Service Cloud", href: "/products/service-cloud" },
-                { name: "Marketing Cloud", href: "/products/marketing-cloud" },
-                { name: "Financial Cloud", href: "/products/financial-cloud" },
-                { name: "Community Cloud", href: "/products/community-cloud" },
-                { name: "Experience Cloud", href: "/products/experience-cloud" },
-                { name: "Velocity (Industries)", href: "/products/velocity-industries" },
-                { name: "CPQ & Billing", href: "/products/cpq" },
-              ].map((link, i) => (
-                <li key={i}>
-                    <Link href={link.href} className="text-slate-400 hover:text-sky-400 transition-colors text-sm flex items-center gap-2 group">
-                        <span className="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-sky-400 transition-colors"></span>
-                        {link.name}
-                    </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 3: Company */}
-          <div>
-            <h4 className="text-white font-bold text-lg mb-6">Company</h4>
-            <ul className="space-y-3">
-              {[
-                { name: "About Us", href: "/#about4" },
-                { name: "Capabilities", href: "/#our_strength" },
-                { name: "Case Studies", href: "/#projects" },
-                { name: "Consulting Services", href: "/services/salesforce-consulting" },
-                { name: "Blogs & Insights", href: "/blog" },
-                { name: "Careers", href: "#" }, // Placeholder
-              ].map((link, i) => (
-                <li key={i}>
-                    <Link href={link.href} className="text-slate-400 hover:text-sky-400 transition-colors text-sm flex items-center gap-2 group">
-                         <span className="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-sky-400 transition-colors"></span>
-                        {link.name}
-                    </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Column 2 & 3 Replacement: Map */}
+          <div className="lg:col-span-2 h-full min-h-[300px] relative rounded-2xl overflow-hidden border border-slate-800 shadow-2xl group ring-1 ring-white/5">
+             <iframe 
+                src="https://maps.google.com/maps?q=Shop%20No%20-%2018,%20LODHA%20ELITE,%20Near%20Nilje%20Railway%20Station,%20Dombivali%20East,%20Thane,%20421204,%20Maharashtra,%20India&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                width="100%" 
+                height="100%" 
+                style={{border:0}} 
+                allowFullScreen={true} 
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="absolute inset-0 w-full h-full filter grayscale contrast-125 opacity-70 group-hover:grayscale-0 group-hover:contrast-100 group-hover:opacity-100 transition-all duration-700 ease-in-out"
+                title="GSBG Location Map"
+             ></iframe>
+             {/* Gradient Overlay for blending */}
+             <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#0B1120] via-transparent to-transparent opacity-60"></div>
           </div>
 
           {/* Column 4: Contact */}

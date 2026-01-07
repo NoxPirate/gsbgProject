@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion, Variants, useScroll, useTransform } from "framer-motion";
 import { useChatbot } from "@/context/ChatbotContext";
 
 const container: Variants = {
@@ -18,6 +18,8 @@ const itemUp: Variants = {
 };
 
 const Hero = () => {
+  const { scrollY } = useScroll();
+  const scrollOpacity = useTransform(scrollY, [0, 100], [1, 0]);
   const { openChatbot } = useChatbot();
   useEffect(() => {
     const v = document.getElementById('heroBgVideo') as HTMLVideoElement | null;
@@ -90,20 +92,22 @@ const Hero = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2"
-      >
-        <span className="text-sm font-medium text-gray-500">Scroll to explore</span>
-        <div className="w-6 h-10 rounded-full border-2 border-gray-400 flex justify-center p-1">
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-            className="w-1.5 h-1.5 rounded-full bg-primary"
-          />
-        </div>
+      <motion.div style={{ opacity: scrollOpacity }} className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 1 }}
+          className="flex flex-col items-center gap-2"
+        >
+          <span className="text-sm font-medium text-gray-500">Scroll to explore</span>
+          <div className="w-6 h-10 rounded-full border-2 border-gray-400 flex justify-center p-1">
+            <motion.div
+              animate={{ y: [0, 12, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              className="w-1.5 h-1.5 rounded-full bg-primary"
+            />
+          </div>
+        </motion.div>
       </motion.div>
     </section>
   );
