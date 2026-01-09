@@ -5,59 +5,85 @@ import { motion } from "framer-motion";
 
 const Demo = () => {
   return (
-  <section id="schedule-demo" className="py-20 bg-sky-200">
-      <div className="max-w-6xl mx-auto px-4">
-        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          {/* left: content */}
-          <div className="text-left">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--color-dark)] mb-4">Demo Sales Cloud</h2>
-            <p className="text-lg text-gray mb-6 max-w-xl">
-              Get to know your future sales platform. Schedule a guided demo to see how Sales Cloud
-              can streamline pipelines, accelerate deals, and give your team full visibility.
-            </p>
+    <section id="schedule-demo" className="relative py-24 overflow-hidden bg-slate-900">
+      {/* Background Decor */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[100px]" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[100px]" />
+      </div>
 
-            <ul className="space-y-3 mb-6">
-              <li className="flex items-start">
-                <span className="inline-block mr-3 mt-1 text-primary">•</span>
-                <span className="text-sm text-gray">Lead & opportunity management tailored to your process</span>
-              </li>
-              <li className="flex items-start">
-                <span className="inline-block mr-3 mt-1 text-primary">•</span>
-                <span className="text-sm text-gray">Real-time forecasting, reporting and dashboards</span>
-              </li>
-              <li className="flex items-start">
-                <span className="inline-block mr-3 mt-1 text-primary">•</span>
-                <span className="text-sm text-gray">Seamless CPQ and quote-to-cash workflows</span>
-              </li>
+      <div className="container mx-auto px-6 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="grid lg:grid-cols-2 gap-16 items-center"
+        >
+          {/* Left Content */}
+          <div className="text-left space-y-8">
+            <div>
+                 <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
+                Experience the Power of <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+                  Sales Cloud
+                </span>
+              </h2>
+              <p className="text-lg text-slate-300 leading-relaxed max-w-xl">
+                Transform your sales process with the world's #1 CRM. Schedule a personalized demo to see how we can help you close deals faster and smarter.
+              </p>
+            </div>
+
+            <ul className="space-y-4">
+              {[
+                "AI-driven lead scoring & routing",
+                "Real-time pipeline analytics",
+                "Seamless quote-to-cash workflow"
+              ].map((item, index) => (
+                <li key={index} className="flex items-center space-x-3 text-slate-200">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-500/20 flex items-center justify-center">
+                    <svg className="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span>{item}</span>
+                </li>
+              ))}
             </ul>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-4 pt-4">
               <a
                 href="#contact-form"
-                className="inline-block bg-primary text-white px-6 py-3 rounded-md font-medium shadow"
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-full font-semibold shadow-lg shadow-blue-500/25 transition-all transform hover:-translate-y-1"
               >
-                Schedule a Demo
+                Schedule Demo
               </a>
               <a
                 href="#sales-presentation"
-                className="inline-block border-2 border-accent text-accent px-5 py-3 rounded-md font-medium hover:bg-accent hover:text-white transition-colors"
+                className="px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-full font-semibold backdrop-blur-sm transition-all"
               >
-                View Presentation
+                Watch Overview
               </a>
             </div>
           </div>
 
-          {/* right: image card */}
-          <div className="flex items-center justify-center">
-            <motion.div whileHover={{ scale: 1.02 }} className="w-full max-w-lg rounded-lg overflow-hidden shadow-lg">
+          {/* Right Image/Visual */}
+          <div className="relative group">
+             <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+              className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-slate-800"
+            >
               <Image
                 src="/assets/images/Image-76.png"
-                alt="Schedule a Demo"
+                alt="Sales Cloud Dashboard"
                 width={800}
                 height={500}
-                className="w-full h-auto object-cover block"
-                loading="lazy"
+                className="w-full h-auto object-cover"
               />
+              {/* Overlay Gradient for nicer blend */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent pointer-events-none" />
             </motion.div>
           </div>
         </motion.div>
