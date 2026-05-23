@@ -68,16 +68,12 @@ To set up the project locally:
 
 1. **Build the Knowledge Base:** Before running the application, you may need to generate the knowledge base from the provided PDFs. Run the build script:
 ```bash
-
-```
-
-
-
 python build_kb.py
-
 ```
 2.  **Run the Application:** Start the main chatbot application:
     ```bash
+
+```
 python app.py
 
 ```
