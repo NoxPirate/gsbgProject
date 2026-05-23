@@ -71,9 +71,6 @@ To set up the project locally:
 python build_kb.py
 ```
 2.  **Run the Application:** Start the main chatbot application:
-    ```bash
-
-```
+```bash
 python app.py
-
 ```
